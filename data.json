@@ -7,8 +7,7 @@
     ],
     "orange": [
       "新創賦能(供應鏈)有被告知，需要找新KA備援助",
-      "觀光局合作推進，本周需有明確意向 進度需本週追蹤回覆",
-      "測試"
+      "觀光局合作推進，本周需有明確意向 進度需本週追蹤回覆"
     ],
     "green": [
       "KA 模板與中小店家模板開發進度正常",
@@ -19,8 +18,8 @@
     "red": [
       {
         "id": 3,
-        "title": "KA 聯盟合作授權",
-        "desc": "新創卡聯盟宏誌與餐飲聯盟需確認合作模式與分潤比例，請裁示合約方向。"
+        "title": "新創聯盟合作方式討論",
+        "desc": "新創卡聯盟宏誌與餐飲聯盟需確認合作模式。"
       }
     ],
     "green": [
@@ -62,8 +61,8 @@
       "milestones": [
         {
           "id": 1,
-          "date": "2026-07-01",
-          "task": "Q2 發卡量達標確認",
+          "date": "2026-06-09",
+          "task": "合作模式討論確認",
           "done": false
         }
       ]
@@ -372,14 +371,7 @@
       "quantCash": "",
       "quantMargin": "",
       "_section": "ka_notes",
-      "milestones": [
-        {
-          "id": 1,
-          "date": "2026-08-01",
-          "task": "KA 方法論 V1.0 文件完成",
-          "done": false
-        }
-      ]
+      "milestones": []
     },
     {
       "id": 14,
@@ -402,14 +394,7 @@
       "quantCash": "",
       "quantMargin": "",
       "_section": "mechanism",
-      "milestones": [
-        {
-          "id": 1,
-          "date": "2026-07-20",
-          "task": "機制 V2.0 文件發布",
-          "done": false
-        }
-      ]
+      "milestones": []
     },
     {
       "id": 15,
@@ -432,14 +417,7 @@
       "quantCash": "",
       "quantMargin": "",
       "_section": "mechanism",
-      "milestones": [
-        {
-          "id": 1,
-          "date": "2026-08-01",
-          "task": "審查標準 V2 正式上線",
-          "done": false
-        }
-      ]
+      "milestones": []
     },
     {
       "id": 16,
@@ -494,8 +472,8 @@
         },
         {
           "id": 2,
-          "date": "2026-09-01",
-          "task": "基地正式掛牌啟動",
+          "date": "2026-11-02",
+          "task": "前往新加坡",
           "done": false
         }
       ]
@@ -574,5 +552,5 @@
       "desc": "KA 開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-07T23:45:05.905Z"
+  "updatedAt": "2026-06-07T23:47:50.405Z"
 }
