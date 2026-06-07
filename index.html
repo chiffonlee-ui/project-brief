@@ -305,8 +305,35 @@ td[contenteditable]:focus{box-shadow:inset 0 0 0 1.5px var(--purple);background:
     <div class="nav-bottom-item" onclick="exportJSON()"><i class="ti ti-download" style="font-size:13px"></i>匯出 JSON</div>
     <div class="nav-bottom-item" onclick="exportCSV()"><i class="ti ti-table-export" style="font-size:13px"></i>匯出 CSV</div>
     <div class="nav-bottom-item" style="cursor:default"><i class="ti ti-device-floppy" style="font-size:13px"></i>自動儲存中</div>
+    <div class="nav-bottom-item" onclick="showPublishModal()" style="color:#2563C4;font-weight:600;margin-top:4px;background:rgba(37,99,196,.07);border-radius:6px;padding:6px 8px"><i class="ti ti-cloud-upload" style="font-size:13px"></i>🚀 發布到 GitHub</div>
+    <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="handleImportFile(event)">
   </div>
 </aside>
+
+<!-- GitHub Publish Modal -->
+<div id="publish-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:16px;padding:2rem;width:480px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.2rem">
+      <span style="font-size:1.4rem">🚀</span>
+      <h2 style="font-size:1rem;font-weight:700;font-family:'Sora',sans-serif">發布到 GitHub Pages</h2>
+      <button onclick="hidePublishModal()" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:18px;color:#999">×</button>
+    </div>
+    <div id="publish-token-section">
+      <p style="font-size:.82rem;color:#666;margin-bottom:.8rem">第一次使用請輸入 GitHub Token（之後會記住，不需要重複輸入）</p>
+      <input id="gh-token-input" type="password" placeholder="ghp_xxxxxxxxxxxxxxxx" style="width:100%;border:1.5px solid #e0e0e0;border-radius:8px;padding:8px 12px;font-size:.85rem;font-family:'DM Mono',monospace;box-sizing:border-box;margin-bottom:.5rem">
+      <p style="font-size:.72rem;color:#999;margin-bottom:1rem">Token 只存在你的瀏覽器，不會傳給任何人。需要 <code>repo</code> 權限。</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem;padding:.7rem;background:#f8f8f8;border-radius:8px;font-size:.78rem;color:#555">
+      <i class="ti ti-brand-github"></i>
+      <span id="publish-target">chiffonlee-ui / project-brief</span>
+    </div>
+    <div id="publish-status" style="display:none;padding:.7rem;border-radius:8px;font-size:.8rem;margin-bottom:1rem"></div>
+    <div style="display:flex;gap:8px">
+      <button onclick="hidePublishModal()" style="flex:1;padding:9px;border:1.5px solid #e0e0e0;border-radius:8px;background:#fff;cursor:pointer;font-size:.85rem">取消</button>
+      <button onclick="doPublish()" id="publish-btn" style="flex:2;padding:9px;border:none;border-radius:8px;background:#2563C4;color:#fff;cursor:pointer;font-size:.85rem;font-weight:600">🚀 發布</button>
+    </div>
+  </div>
+</div>
 
 <main class="main">
   <div class="mob-nav" id="mob-nav"></div>
@@ -1319,6 +1346,125 @@ function addStatusItem(type){
 }
 function delSbItem(type,idx){sbData[type].splice(idx,1);renderStatusBoard();saveSb();}
 
+
+
+/* ═══ GITHUB PUBLISH ═══ */
+var GH_OWNER = 'chiffonlee-ui';
+var GH_REPO  = 'project-brief';
+var GH_FILE  = 'index.html';
+var GH_BRANCH= 'main';
+
+function showPublishModal(){
+  var modal = document.getElementById('publish-modal');
+  modal.style.display = 'flex';
+  // Pre-fill token if saved
+  var saved = localStorage.getItem('gh_token');
+  if(saved){ document.getElementById('gh-token-input').value = saved; }
+  document.getElementById('publish-status').style.display = 'none';
+}
+function hidePublishModal(){
+  document.getElementById('publish-modal').style.display = 'none';
+}
+
+async function doPublish(){
+  var tokenInput = document.getElementById('gh-token-input').value.trim();
+  if(!tokenInput){ alert('請輸入 GitHub Token'); return; }
+  localStorage.setItem('gh_token', tokenInput);
+
+  var btn = document.getElementById('publish-btn');
+  var status = document.getElementById('publish-status');
+  btn.textContent = '發布中...'; btn.disabled = true;
+  status.style.display = 'block';
+  status.style.background = '#fff8e1';
+  status.style.color = '#856404';
+  status.textContent = '⏳ 正在準備資料...';
+
+  try {
+    // 1. Bake current state into DEFAULT values in the HTML
+    var currentHtml = await fetchCurrentHtml(tokenInput);
+    var newHtml = bakeStateIntoHtml(currentHtml);
+
+    status.textContent = '⏳ 正在上傳到 GitHub...';
+
+    // 2. Get current file SHA
+    var shaRes = await fetch(
+      'https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE+'?ref='+GH_BRANCH,
+      { headers: { 'Authorization': 'token '+tokenInput, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if(!shaRes.ok) throw new Error('無法取得檔案資訊 ('+shaRes.status+')');
+    var shaData = await shaRes.json();
+    var sha = shaData.sha;
+
+    // 3. Push updated HTML
+    var encoded = btoa(unescape(encodeURIComponent(newHtml)));
+    var d = new Date();
+    var msg = 'Update brief '+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    var pushRes = await fetch(
+      'https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,
+      {
+        method: 'PUT',
+        headers: { 'Authorization': 'token '+tokenInput, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, content: encoded, sha: sha, branch: GH_BRANCH })
+      }
+    );
+    if(!pushRes.ok){
+      var errData = await pushRes.json();
+      throw new Error(errData.message || '上傳失敗 ('+pushRes.status+')');
+    }
+
+    status.style.background = '#d4edda'; status.style.color = '#155724';
+    status.textContent = '✅ 發布成功！約 1 分鐘後生效。';
+    btn.textContent = '✅ 完成';
+    setTimeout(function(){ btn.textContent = '🚀 發布'; btn.disabled = false; }, 3000);
+  } catch(err) {
+    status.style.background = '#f8d7da'; status.style.color = '#721c24';
+    status.textContent = '❌ ' + err.message;
+    btn.textContent = '🚀 發布'; btn.disabled = false;
+  }
+}
+
+async function fetchCurrentHtml(token){
+  var res = await fetch(
+    'https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE+'?ref='+GH_BRANCH,
+    { headers: { 'Authorization': 'token '+token, 'Accept': 'application/vnd.github.v3+json' } }
+  );
+  var data = await res.json();
+  return decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+}
+
+function bakeStateIntoHtml(html){
+  // Replace DEFAULT_PROJECTS with current PROJECTS
+  var projJson = JSON.stringify(PROJECTS, null, 2);
+  html = html.replace(/DEFAULT_PROJECTS = \[[\s\S]*?\]\.filter\(function/,
+    'DEFAULT_PROJECTS = '+projJson+';\nvar _DP_FILTERED = DEFAULT_PROJECTS.filter(function');
+  // Simpler: replace the const block
+  var oldProjStart = html.indexOf('DEFAULT_PROJECTS = [');
+  var oldProjEnd   = html.indexOf(']\nconst DEFAULT_STRATEGY', oldProjStart);
+  if(oldProjStart>=0 && oldProjEnd>=0){
+    html = html.slice(0,oldProjStart) + 'DEFAULT_PROJECTS = ' + projJson + html.slice(oldProjEnd);
+  }
+
+  // Replace SB_DEFAULT with current sbData
+  var sbJson = JSON.stringify(sbData, null, 2);
+  var sbStart = html.indexOf('var SB_DEFAULT = {');
+  var sbEnd   = html.indexOf('};\nvar sbData', sbStart);
+  if(sbStart>=0 && sbEnd>=0){
+    html = html.slice(0,sbStart) + 'var SB_DEFAULT = ' + sbJson + html.slice(sbEnd);
+  }
+
+  // Replace weeklyHighlight default
+  var wh = weeklyHighlight || '';
+  if(wh){
+    html = html.replace(/var DEFAULT_WH='[^']*';/, "var DEFAULT_WH='"+wh.replace(/'/g,"\\'")+"';");
+  }
+
+  // Replace DECISIONS default
+  var decJson = JSON.stringify({red: DECISIONS.red||[], green: DECISIONS.green||[]});
+  html = html.replace(/DECISIONS = loadLS\('brief_decisions', \{[\s\S]*?\}\)/,
+    "DECISIONS = loadLS('brief_decisions', "+decJson+")");
+
+  return html;
+}
 
 /* ═══ IMPORT BACKUP ═══ */
 function importBackup(){
