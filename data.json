@@ -73,7 +73,7 @@
       "stageId": "approved",
       "dept": "經發局",
       "partner": "加速器夥伴",
-      "revenue": "NT$ 150 萬",
+      "revenue": "NT$ 150~200 萬",
       "qual": "提升新創團隊商業化能力與市場連結",
       "quant": "輔導 30 家/期",
       "strategic": "建立新創生態話語權，為新加坡輸出準備",
@@ -484,7 +484,7 @@
       "stageId": "explore",
       "dept": "",
       "partner": "",
-      "revenue": "",
+      "revenue": "500萬",
       "proposeDate": "",
       "qual": "",
       "quant": "",
@@ -507,7 +507,30 @@
       "stageId": "explore",
       "dept": "",
       "partner": "",
-      "revenue": "",
+      "revenue": "—",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "interest",
+      "milestones": []
+    },
+    {
+      "id": 20,
+      "name": "SITI",
+      "stageId": "explore",
+      "dept": "",
+      "partner": "",
+      "revenue": "500萬",
       "proposeDate": "",
       "qual": "",
       "quant": "",
@@ -552,5 +575,5 @@
       "desc": "KA 開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-07T23:47:50.405Z"
+  "updatedAt": "2026-06-07T23:55:01.719Z"
 }
