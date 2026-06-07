@@ -486,522 +486,66 @@ const SECTIONS=[
 
 /* ═══ DATA ═══ */
 const DEFAULT_PROJECTS = [ /*__PROJ_START__*/
-{
-    "id": 1,
-    "name": "新創卡",
-    "stageId": "approved",
-    "dept": "青年局",
-    "partner": "金融機構",
-    "revenue": "NT$ 200 萬/年",
-    "qual": "新創族群獲得專屬金融工具，降低創業門檻",
-    "quant": "目標 5,000 張/季",
-    "strategic": "與金融機構深度綁定，提升轉換壁壘",
-    "dateStart": "2025-Q1",
-    "dateEnd": "2026-Q1",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "2026/04",
-    "progress": "",
-    "quantShops": "200",
-    "quantCash": "200",
-    "quantMargin": "",
-    "_section": "approved",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-07-01",
-        "task": "Q2 發卡量達標確認",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "name": "新創賦能",
-    "stageId": "approved",
-    "dept": "經發局",
-    "partner": "加速器夥伴",
-    "revenue": "NT$ 150 萬",
-    "qual": "提升新創團隊商業化能力與市場連結",
-    "quant": "輔導 30 家/期",
-    "strategic": "建立新創生態話語權，為新加坡輸出準備",
-    "dateStart": "2025-Q2",
-    "dateEnd": "2025-Q4",
-    "intl": true,
-    "note": "",
-    "link": "",
-    "proposeDate": "2026/04",
-    "progress": "",
-    "quantShops": "30",
-    "quantCash": "150",
-    "quantMargin": "",
-    "_section": "approved",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-06-15",
-        "task": "第一期結案報告送交",
-        "done": false
-      },
-      {
-        "id": 2,
-        "date": "2026-08-01",
-        "task": "課程學辦",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "name": "餐飲聯盟",
-    "stageId": "explore",
-    "dept": "創新創業總會",
-    "partner": "聯盟會員",
-    "revenue": "會員費",
-    "qual": "建立餐飲業數位服務共同標準",
-    "quant": "串聯 50+ 店家",
-    "strategic": "垂直生態系建立，形成產業護城河",
-    "dateStart": "2025-Q2",
-    "dateEnd": "2025-Q4",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "50",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "alliance",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-07-15",
-        "task": "課程說明會",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "name": "移工卡提案",
-    "stageId": "explore",
-    "dept": "程嗦 3TG 創新總會",
-    "partner": "",
-    "revenue": "500～2000萬",
-    "qual": "服務新住民與跨境議題",
-    "quant": "",
-    "strategic": "開拓新族群金融服務",
-    "dateStart": "",
-    "dateEnd": "",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "2026/07",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "alliance",
-    "milestones": []
-  },
-  {
-    "id": 5,
-    "name": "新創聯盟",
-    "stageId": "explore",
-    "dept": "程嗦 創新總會",
-    "partner": "",
-    "revenue": "—",
-    "qual": "新創圈資源整合",
-    "quant": "",
-    "strategic": "擴大新創圈影響力",
-    "dateStart": "",
-    "dateEnd": "",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "alliance",
-    "milestones": []
-  },
-  {
-    "id": 6,
-    "name": "智慧美食街宏誌",
-    "stageId": "talk",
-    "dept": "經濟部",
-    "partner": "宏誌科技",
-    "revenue": "1000～2000萬",
-    "qual": "擴大新創卡品牌能見度，串聯媒體資源",
-    "quant": "店家 200 家",
-    "strategic": "媒體資源槓桿，提升公司品牌聲量",
-    "dateStart": "2025-Q1",
-    "dateEnd": "2025-Q3",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "200",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "proposal",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-06-25",
-        "task": "聯名活動企劃定稿",
-        "done": false
-      },
-      {
-        "id": 2,
-        "date": "2026-07-10",
-        "task": "計劃送件",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 7,
-    "name": "無人機",
-    "stageId": "talk",
-    "dept": "經濟部",
-    "partner": "中華電信",
-    "revenue": "NT$ 500 萬",
-    "qual": "無人機應用場域建立，帶動智慧城市發展",
-    "quant": "覆蓋 5 個示範區",
-    "strategic": "進入智慧城市賽道，可移植至新加坡場域",
-    "dateStart": "2025-Q1",
-    "dateEnd": "2025-Q3",
-    "intl": true,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "500",
-    "quantMargin": "",
-    "_section": "proposal",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-08-30",
-        "task": "全區域整合測試",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 8,
-    "name": "觀光局",
-    "stageId": "talk",
-    "dept": "觀光局",
-    "partner": "待定",
-    "revenue": "估評中",
-    "qual": "觀光場域數位化，提升旅客消費體驗",
-    "quant": "",
-    "strategic": "打入觀光垂直領域，建立政府標竿案例",
-    "dateStart": "2025-Q2",
-    "dateEnd": "TBD",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "talk",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-06-10",
-        "task": "高層拜會與正式提案",
-        "done": false
-      },
-      {
-        "id": 2,
-        "date": "2026-07-31",
-        "task": "合約草稿送審",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 9,
-    "name": "SITI 台北市品牌提案",
-    "stageId": "explore",
-    "dept": "",
-    "partner": "",
-    "revenue": "—",
-    "qual": "台北市品牌推廣數位化",
-    "quant": "",
-    "strategic": "進入台北市政府採購體系",
-    "dateStart": "",
-    "dateEnd": "",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "talk",
-    "milestones": []
-  },
-  {
-    "id": 10,
-    "name": "[新創賦能] 芋見綠豆-宏正國際餐飲股份有限公司",
-    "stageId": "dev",
-    "dept": "",
-    "partner": "",
-    "revenue": "—",
-    "qual": "KA 延伸企業合作說明",
-    "quant": "10～20 家",
-    "strategic": "延伸 KA 合作場域",
-    "dateStart": "",
-    "dateEnd": "",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "15",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "ka_notes",
-    "milestones": []
-  },
-  {
-    "id": 11,
-    "name": "[新創賦能] 呷尚寶中西式速食連鎖企業",
-    "stageId": "dev",
-    "dept": "",
-    "partner": "",
-    "revenue": "—",
-    "qual": "KA 延伸連鎖合作說明",
-    "quant": "10～20 家",
-    "strategic": "延伸 KA 合作場域",
-    "dateStart": "",
-    "dateEnd": "",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "15",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "ka_notes",
-    "milestones": []
-  },
-  {
-    "id": 12,
-    "name": "KA 開發模板",
-    "stageId": "dev",
-    "dept": "業務部",
-    "partner": "",
-    "revenue": "—",
-    "qual": "記錄 KA 開發的歷史背景、策略方向與核心邏輯",
-    "quant": "",
-    "strategic": "形成可傳承的 KA 方法論，支援業務規模化",
-    "dateStart": "2026-Q1",
-    "dateEnd": "持續",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "ka_notes",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-08-01",
-        "task": "KA 方法論 V1.0 文件完成",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 13,
-    "name": "中小店家模板",
-    "stageId": "dev",
-    "dept": "商業處",
-    "partner": "",
-    "revenue": "—",
-    "qual": "中小型店家快速上線，縮短導入週期",
-    "quant": "",
-    "strategic": "擴大服務對象至長尾市場",
-    "dateStart": "2025-Q1",
-    "dateEnd": "2025-Q2",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "mechanism",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-06-30",
-        "task": "UI 原型評審確認",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 14,
-    "name": "KA開發機制",
-    "stageId": "mechanism",
-    "dept": "業務部",
-    "partner": "",
-    "revenue": "—",
-    "qual": "建立KA業務開發標準流程，提升洽談效率",
-    "quant": "",
-    "strategic": "制度化複製能力，降低人員流失風險",
-    "dateStart": "2025-Q2",
-    "dateEnd": "持續",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "mechanism",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-07-20",
-        "task": "機制 V2.0 文件發布",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 15,
-    "name": "審查機制優化",
-    "stageId": "mechanism",
-    "dept": "研考會",
-    "partner": "各局處",
-    "revenue": "—",
-    "qual": "統一審查標準，減少主觀判斷差異",
-    "quant": "",
-    "strategic": "提升治理品質，強化夥伴信任",
-    "dateStart": "2025-Q3",
-    "dateEnd": "持續",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "mechanism",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-10-01",
-        "task": "審查標準 V2 正式上線",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 16,
-    "name": "AI菜單-作嗑 (Ting)",
-    "stageId": "explore",
-    "dept": "",
-    "partner": "靈感",
-    "revenue": "—",
-    "qual": "AI 應用於餐飲點餐體驗",
-    "quant": "",
-    "strategic": "探索 AI 與餐飲場域結合的新商模",
-    "dateStart": "",
-    "dateEnd": "",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "inspire",
-    "milestones": []
-  },
-  {
-    "id": 17,
-    "name": "新加坡基地籌備",
-    "stageId": "mechanism",
-    "dept": "國際部",
-    "partner": "TBD",
-    "revenue": "—",
-    "qual": "東南亞市場橋頭堡，提供台灣新創出海加速服務",
-    "quant": "目標市場：SG/MY/ID",
-    "strategic": "建立東南亞品牌形象，擴大政府客戶信任度",
-    "dateStart": "2025-Q3",
-    "dateEnd": "持續",
-    "intl": true,
-    "note": "",
-    "link": "",
-    "proposeDate": "",
-    "progress": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "_section": "mechanism",
-    "milestones": [
-      {
-        "id": 1,
-        "date": "2026-06-20",
-        "task": "線上徵選",
-        "done": false
-      },
-      {
-        "id": 2,
-        "date": "2026-09-01",
-        "task": "基地正式掛牌啟動",
-        "done": false
-      }
-    ]
-  },
-  {
-    "id": 18,
-    "name": "AI菜單-作燴 (SBIR)",
-    "stageId": "explore",
-    "dept": "",
-    "partner": "",
-    "revenue": "",
-    "proposeDate": "",
-    "qual": "",
-    "quant": "",
-    "strategic": "",
-    "quantShops": "",
-    "quantCash": "",
-    "quantMargin": "",
-    "dateStart": "",
-    "dateEnd": "",
-    "intl": false,
-    "note": "",
-    "link": "",
-    "progress": "",
-    "_section": "idea",
-    "milestones": []
-  }
-] /*__PROJ_END__*/
+  // ── 已過案 ──
+  {id:1,  name:'新創卡',            stageId:'approved', dept:'青年局',   partner:'金融機構',    revenue:'NT$ 200 萬/年', qual:'新創族群獲得專屬金融工具，降低創業門檻',        quant:'目標 5,000 張/季',  strategic:'與金融機構深度綁定，提升轉換壁壘',            dateStart:'2025-Q1',dateEnd:'2026-Q1',intl:false,note:'',link:'',proposeDate:'2026/04',progress:'',quantShops:'200',quantCash:'200',quantMargin:'',_section:'approved',
+    milestones:[{id:1,date:'2026-07-01',task:'Q2 發卡量達標確認',done:false}]},
+
+  {id:2,  name:'新創賦能',          stageId:'approved', dept:'經發局',   partner:'加速器夥伴',  revenue:'NT$ 150 萬',    qual:'提升新創團隊商業化能力與市場連結',               quant:'輔導 30 家/期',     strategic:'建立新創生態話語權，為新加坡輸出準備',        dateStart:'2025-Q2',dateEnd:'2025-Q4',intl:true, note:'',link:'',proposeDate:'2026/04',progress:'',quantShops:'30',quantCash:'150',quantMargin:'',_section:'approved',
+    milestones:[{id:1,date:'2026-06-15',task:'第一期結案報告送交',done:false},{id:2,date:'2026-08-01',task:'課程學辦',done:false}]},
+
+  // ── 新案探索 ──
+  {id:3,  name:'餐飲聯盟',          stageId:'explore',  dept:'創新創業總會',partner:'聯盟會員',  revenue:'會員費',        qual:'建立餐飲業數位服務共同標準',                     quant:'串聯 50+ 店家',     strategic:'垂直生態系建立，形成產業護城河',              dateStart:'2025-Q2',dateEnd:'2025-Q4',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'50',quantCash:'',quantMargin:'',_section:'alliance',
+    milestones:[{id:1,date:'2026-07-15',task:'課程說明會',done:false}]},
+
+  {id:4,  name:'移工卡提案',        stageId:'explore',  dept:'程嗦 3TG 創新總會',partner:'',   revenue:'500～2000萬',   qual:'服務新住民與跨境議題',                           quant:'',                  strategic:'開拓新族群金融服務',                          dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'2026/07',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'alliance',
+    milestones:[]},
+
+  {id:5,  name:'新創聯盟',          stageId:'explore',  dept:'程嗦 創新總會',partner:'',        revenue:'—',             qual:'新創圈資源整合',                                 quant:'',                  strategic:'擴大新創圈影響力',                            dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'alliance',
+    milestones:[]},
+
+  // ── 準提案 ──
+  {id:6,  name:'智慧美食街宏誌',    stageId:'talk',     dept:'經濟部',   partner:'宏誌科技',   revenue:'1000～2000萬',  qual:'擴大新創卡品牌能見度，串聯媒體資源',             quant:'店家 200 家',       strategic:'媒體資源槓桿，提升公司品牌聲量',              dateStart:'2025-Q1',dateEnd:'2025-Q3',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'200',quantCash:'',quantMargin:'',_section:'proposal',
+    milestones:[{id:1,date:'2026-06-25',task:'聯名活動企劃定稿',done:false},{id:2,date:'2026-07-10',task:'計劃送件',done:false}]},
+
+  {id:7,  name:'無人機',            stageId:'talk',     dept:'經濟部',   partner:'中華電信',   revenue:'NT$ 500 萬',    qual:'無人機應用場域建立，帶動智慧城市發展',           quant:'覆蓋 5 個示範區',   strategic:'進入智慧城市賽道，可移植至新加坡場域',        dateStart:'2025-Q1',dateEnd:'2025-Q3',intl:true, note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'500',quantMargin:'',_section:'proposal',
+    milestones:[{id:1,date:'2026-08-30',task:'全區域整合測試',done:false}]},
+
+  // ── 興趣洽談 ──
+  {id:8,  name:'觀光局',            stageId:'talk',     dept:'觀光局',   partner:'待定',       revenue:'估評中',        qual:'觀光場域數位化，提升旅客消費體驗',               quant:'',                  strategic:'打入觀光垂直領域，建立政府標竿案例',          dateStart:'2025-Q2',dateEnd:'TBD',    intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'talk',
+    milestones:[{id:1,date:'2026-06-10',task:'高層拜會與正式提案',done:false},{id:2,date:'2026-07-31',task:'合約草稿送審',done:false}]},
+
+  {id:9,  name:'SITI 台北市品牌提案',stageId:'explore', dept:'',         partner:'',           revenue:'—',             qual:'台北市品牌推廣數位化',                           quant:'',                  strategic:'進入台北市政府採購體系',                      dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'talk',
+    milestones:[]},
+
+  // ── 延伸 KA 說明 ──
+  {id:10, name:'[新創賦能] 芋見綠豆-宏正國際餐飲股份有限公司', stageId:'dev', dept:'',partner:'',revenue:'—', qual:'KA 延伸企業合作說明', quant:'10～20 家', strategic:'延伸 KA 合作場域', dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'15',quantCash:'',quantMargin:'',_section:'ka_notes',
+    milestones:[]},
+
+  {id:11, name:'[新創賦能] 呷尚寶中西式速食連鎖企業', stageId:'dev', dept:'',partner:'',revenue:'—', qual:'KA 延伸連鎖合作說明', quant:'10～20 家', strategic:'延伸 KA 合作場域', dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'15',quantCash:'',quantMargin:'',_section:'ka_notes',
+    milestones:[]},
+
+  {id:12, name:'KA 開發模板',       stageId:'dev',      dept:'業務部',   partner:'',           revenue:'—',             qual:'記錄 KA 開發的歷史背景、策略方向與核心邏輯',     quant:'',                  strategic:'形成可傳承的 KA 方法論，支援業務規模化',      dateStart:'2026-Q1',dateEnd:'持續',   intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'ka_notes',
+    milestones:[{id:1,date:'2026-08-01',task:'KA 方法論 V1.0 文件完成',done:false}]},
+
+  // ── 改善機制 ──
+  {id:13, name:'中小店家模板',      stageId:'dev',      dept:'商業處',   partner:'',           revenue:'—',             qual:'中小型店家快速上線，縮短導入週期',               quant:'',                  strategic:'擴大服務對象至長尾市場',                      dateStart:'2025-Q1',dateEnd:'2025-Q2',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-06-30',task:'UI 原型評審確認',done:false}]},
+
+  {id:14, name:'KA開發機制',        stageId:'mechanism',dept:'業務部',   partner:'',           revenue:'—',             qual:'建立KA業務開發標準流程，提升洽談效率',           quant:'',                  strategic:'制度化複製能力，降低人員流失風險',            dateStart:'2025-Q2',dateEnd:'持續',   intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-07-20',task:'機制 V2.0 文件發布',done:false}]},
+
+  {id:15, name:'審查機制優化',      stageId:'mechanism',dept:'研考會',   partner:'各局處',     revenue:'—',             qual:'統一審查標準，減少主觀判斷差異',                 quant:'',                  strategic:'提升治理品質，強化夥伴信任',                  dateStart:'2025-Q3',dateEnd:'持續',   intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-10-01',task:'審查標準 V2 正式上線',done:false}]},
+
+  // ── 靈感 ──
+  {id:16, name:'AI菜單-作嗑 (Ting)',stageId:'explore',  dept:'',         partner:'靈感',       revenue:'—',             qual:'AI 應用於餐飲點餐體驗',                          quant:'',                  strategic:'探索 AI 與餐飲場域結合的新商模',              dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'inspire',
+    milestones:[]},
+
+  // ── 新加坡基地 (機制更新) ──
+  {id:17, name:'新加坡基地籌備',    stageId:'mechanism',dept:'國際部',   partner:'TBD',        revenue:'—',             qual:'東南亞市場橋頭堡，提供台灣新創出海加速服務',    quant:'目標市場：SG/MY/ID',strategic:'建立東南亞品牌形象，擴大政府客戶信任度',      dateStart:'2025-Q3',dateEnd:'持續',   intl:true, note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-06-20',task:'線上徵選',done:false},{id:2,date:'2026-09-01',task:'基地正式掛牌啟動',done:false}]}
+]
+/*__PROJ_END__*/
 const DEFAULT_STRATEGY = [
   {color:'#D63B3B', title:'新案探索擴大',    desc:'持續發掘新市場機會，每月至少新增 2 個探索案件，建立穩定的案件漏斗。'},
   {color:'#D4720A', title:'觀光局提案推進',  desc:'填補提案空缺，觀光局應於本季完成提案並取得回覆，高層拜會需儘速安排。'},
@@ -1022,7 +566,20 @@ let currentSectionFilter=(function(){try{return localStorage.getItem('brief_tab'
 const openCards={};
 let weeklyHighlight = (function(){try{return localStorage.getItem('brief_weekly_highlights')||'本週以政府合作案推進與策略夥伴布局為主，短期需確認觀光局合作方向及新加坡基地資源配置；既有過案項目維持正常推進中。';}catch(e){return '本週以政府合作案推進與策略夥伴布局為主，短期需確認觀光局合作方向及新加坡基地資源配置；既有過案項目維持正常推進中。';}})();
 let stratDragIdx=null,tblDragSrcId=null,tblDragOverRow=null;
-let DECISIONS = loadLS('brief_decisions', {"red":[{"id":1,"title":"觀光局洽談授權","desc":"請裁示是否由高層出面拜會，加速觀光局從洽談推進至正式提案，本季需有明確意向。"},{"id":3,"title":"KA 聯盟合作授權","desc":"新創卡聯盟宏誌與餐飲聯盟需確認合作模式與分潤比例，請裁示合約方向。"}],"green":[{"id":1,"title":"新創卡過案順利推進","desc":"已正式過案，目標 5,000 張/季，金融機構合作關係穩定，執行中無需額外介入。"},{"id":3,"title":"機制更新持續推進","desc":"KA 開發機制與審查機制均在更新中，有助業務標準化，屬例行推進事項。"}]})
+let DECISIONS = loadLS('brief_decisions', {
+  red: [
+    {id:1, title:'觀光局洽談授權',  desc:'請裁示是否由高層出面拜會，加速觀光局從洽談推進至正式提案，本季需有明確意向。'},
+    {id:2, title:'新加坡基地預算核定', desc:'Q3 啟動需確認預算規模與負責窗口，請裁示資源調度方式與優先層級。'},
+    {id:3, title:'KA 聯盟合作授權', desc:'新創卡聯盟宏誌與餐飲聯盟需確認合作模式與分潤比例，請裁示合約方向。'},
+    {id:4, title:'跨部門人力協調',  desc:'新創賦能執行期間需研考會與經發局共同配合，請協助協調窗口與工作分工。'}
+  ],
+  green: [
+    {id:1, title:'新創卡過案順利推進', desc:'已正式過案，目標 5,000 張/季，金融機構合作關係穩定，執行中無需額外介入。'},
+    {id:2, title:'模板開發進度正常',  desc:'KA 模板與中小店家模板正按計畫開發，預計 Q2 完成，不需要決策介入。'},
+    {id:3, title:'機制更新持續推進',  desc:'KA 開發機制與審查機制均在更新中，有助業務標準化，屬例行推進事項。'},
+    {id:4, title:'無人機驗收完成',   desc:'示範區 A 已驗收，整合測試預計 Q3 完成，目前進度符合計畫。'}
+  ]
+})
 let nextDecId=10;
 
 /* ═══ LS ═══ */
@@ -1725,8 +1282,21 @@ function deleteWeeklyItem(idx){delWbItem('decide',idx);}
 
 /* ═══ STATUS BOARD ═══ */
 var SB_DEFAULT = { /*__SB_START__*/
-"red":["中小微企業(新創卡)希望三方6/9確認合作模式 - 點點+資策會+新創","科專申請-點鑽+新創+3TG 1. 移工卡(命名可以重新構思，讓行銷更容易建議英文或東南亞使用較親切的名稱): 主推 點數(點鑽)、支付(點鑽全球)、票券(3TG)聯盟申請，有新住民、跨境議題的亮點合作申請 2. 新創聯盟，建議由程嗦透過新創總會及媒介多家連鎖加盟企業業域，成為多場域驗證的商圈聯盟。成員: 點鑽+新創總會+連鎖聯盟 >>>需要溝讓點點漂亮進入  3. 企業內部員工激勵點數應用，建議用程嗦(員工多)+點鑽自行申請 >>>需要溝通 與點點目前新創卡不衝突","宏誌的整合案，是否與上面，分開申請，點點自行申請"],"orange":["新創賦能(供應鏈)有被告知，需要找新KA備援助","觀光局合作推進，本周需有明確意向 進度需本週追蹤回覆","測試222","更新"],"green":["KA 模板與中小店家模板開發進度正常","機制更新例行推進，有助業務標準化"]
-} /*__SB_END__*/
+  red: [
+    '中小微企業(新創卡)希望三方6/9確認合作模式 - 點點+資策會+新創',
+    '科專申請-點鑽+新創+3TG 1. 移工卡(命名可以重新構思，讓行銷更容易建議英文或東南亞使用較親切的名稱): 主推 點數(點鑽)、支付(點鑽全球)、票券(3TG)聯盟申請，有新住民、跨境議題的亮點合作申請 2. 新創聯盟，建議由程嗦透過新創總會及媒介多家連鎖加盟企業業域，成為多場域驗證的商圈聯盟。成員: 點鑽+新創總會+連鎖聯盟 >>>需要溝讓點點漂亮進入  3. 企業內部員工激勵點數應用，建議用程嗦(員工多)+點鑽自行申請 >>>需要溝通 與點點目前新創卡不衝突',
+    '宏誌的整合案，是否與上面，分開申請，點點自行申請'
+  ],
+  orange: [
+    '新創賦能(供應鏈)有被告知，需要找新KA備援助',
+    '觀光局合作推進，本周需有明確意向 進度需本週追蹤回覆'
+  ],
+  green: [
+    'KA 模板與中小店家模板開發進度正常',
+    '機制更新例行推進，有助業務標準化'
+  ]
+};
+/*__SB_END__*/
 var sbData = (function(){
   try{var v=localStorage.getItem('brief_sb');return v?JSON.parse(v):JSON.parse(JSON.stringify(SB_DEFAULT));}
   catch(e){return JSON.parse(JSON.stringify(SB_DEFAULT));}
@@ -1781,27 +1351,28 @@ function delSbItem(type,idx){sbData[type].splice(idx,1);renderStatusBoard();save
 
 
 /* ═══ GITHUB PUBLISH ═══ */
-var GH_OWNER = 'chiffonlee-ui';
-var GH_REPO  = 'project-brief';
-var GH_FILE  = 'index.html';
-var GH_BRANCH= 'main';
+var GH_OWNER  = 'chiffonlee-ui';
+var GH_REPO   = 'project-brief';
+var GH_BRANCH = 'main';
+var DATA_FILE = 'data.json';  // 只更新這個檔案，HTML 永遠不變
 
 function showPublishModal(){
   var modal = document.getElementById('publish-modal');
   modal.style.display = 'flex';
-  // Pre-fill token if saved
   var saved = localStorage.getItem('gh_token');
   if(saved){ document.getElementById('gh-token-input').value = saved; }
   document.getElementById('publish-status').style.display = 'none';
+  document.getElementById('publish-btn').textContent = '🚀 發布';
+  document.getElementById('publish-btn').disabled = false;
 }
 function hidePublishModal(){
   document.getElementById('publish-modal').style.display = 'none';
 }
 
 async function doPublish(){
-  var tokenInput = document.getElementById('gh-token-input').value.trim();
-  if(!tokenInput){ alert('請輸入 GitHub Token'); return; }
-  localStorage.setItem('gh_token', tokenInput);
+  var token = document.getElementById('gh-token-input').value.trim();
+  if(!token){ alert('請輸入 GitHub Token'); return; }
+  localStorage.setItem('gh_token', token);
 
   var btn = document.getElementById('publish-btn');
   var status = document.getElementById('publish-status');
@@ -1809,51 +1380,53 @@ async function doPublish(){
   status.style.display = 'block';
   status.style.background = '#fff8e1';
   status.style.color = '#856404';
-  status.textContent = '⏳ 正在準備資料...';
+  status.textContent = '⏳ 上傳資料中...';
 
   try {
-    // 1. Get current file SHA from GitHub
+    // Build data object from current state
+    var data = {
+      sb: sbData,
+      decisions: { red: DECISIONS.red||[], green: DECISIONS.green||[] },
+      weeklyHighlight: weeklyHighlight || '',
+      projects: PROJECTS,
+      strategy: STRATEGY,
+      updatedAt: new Date().toISOString()
+    };
+    var dataStr = JSON.stringify(data, null, 2);
+    var encoded = btoa(unescape(encodeURIComponent(dataStr)));
+
+    // Get current SHA of data.json (if exists)
+    var sha = null;
     var shaRes = await fetch(
-      'https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE+'?ref='+GH_BRANCH,
-      { headers: { 'Authorization': 'token '+tokenInput, 'Accept': 'application/vnd.github.v3+json' } }
+      'https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+DATA_FILE+'?ref='+GH_BRANCH,
+      { headers: { 'Authorization': 'token '+token, 'Accept': 'application/vnd.github.v3+json' } }
     );
-    if(!shaRes.ok) throw new Error('無法取得檔案資訊 ('+shaRes.status+')');
-    var shaData = await shaRes.json();
-    var sha = shaData.sha;
-
-    // 2. Fetch current HTML from GitHub and bake state into it
-    status.textContent = '⏳ 正在燒入資料...';
-    var rawHtml = decodeURIComponent(escape(atob(shaData.content.replace(/\n/g,''))));
-    var newHtml = bakeStateIntoHtml(rawHtml);
-
-    // 3. Verify bake worked
-    if(newHtml.indexOf('/*__PROJ_START__*/') < 0){
-      throw new Error('資料燒入失敗，請重新上傳 index.html 到 GitHub');
+    if(shaRes.ok){
+      var shaData = await shaRes.json();
+      sha = shaData.sha;
     }
 
-    status.textContent = '⏳ 正在上傳到 GitHub...';
+    // Push data.json
+    var body = { message: 'data update '+new Date().toISOString().slice(0,16), content: encoded, branch: GH_BRANCH };
+    if(sha) body.sha = sha;
 
-    // 4. Push
-    var encoded = btoa(unescape(encodeURIComponent(newHtml)));
-    var d = new Date();
-    var msg = 'Brief update '+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
     var pushRes = await fetch(
-      'https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,
+      'https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+DATA_FILE,
       {
         method: 'PUT',
-        headers: { 'Authorization': 'token '+tokenInput, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg, content: encoded, sha: sha, branch: GH_BRANCH })
+        headers: { 'Authorization': 'token '+token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
       }
     );
     if(!pushRes.ok){
-      var errData = await pushRes.json();
-      throw new Error(errData.message || '上傳失敗 ('+pushRes.status+')');
+      var err = await pushRes.json();
+      throw new Error(err.message || '上傳失敗 ('+pushRes.status+')');
     }
 
     status.style.background = '#d4edda'; status.style.color = '#155724';
-    status.textContent = '✅ 發布成功！約 1 分鐘後生效，請重新整理頁面。';
+    status.textContent = '✅ 發布成功！其他人重新整理頁面即可看到最新資料。';
     btn.textContent = '✅ 完成';
-    setTimeout(function(){ btn.textContent = '🚀 發布'; btn.disabled = false; }, 4000);
+    setTimeout(function(){ btn.textContent = '🚀 發布'; btn.disabled = false; }, 3000);
   } catch(err) {
     status.style.background = '#f8d7da'; status.style.color = '#721c24';
     status.textContent = '❌ ' + err.message;
@@ -1861,61 +1434,34 @@ async function doPublish(){
   }
 }
 
-function bakeStateIntoHtml(html){
-  // ── 1. DEFAULT_PROJECTS ──
-  var projJson = JSON.stringify(PROJECTS, null, 2);
-  var PROJ_S = '/*__PROJ_START__*/';
-  var PROJ_E = '/*__PROJ_END__*/';
-  var p1 = html.indexOf(PROJ_S);
-  var p2 = html.indexOf(PROJ_E);
-  if(p1>=0 && p2>=0){
-    var arrStart = html.lastIndexOf('DEFAULT_PROJECTS', p1);
-    html = html.slice(0,arrStart)
-      + 'DEFAULT_PROJECTS = [ ' + PROJ_S + '\n'
-      + projJson.slice(1,-1).trim()
-      + '\n] ' + PROJ_E
-      + html.slice(p2 + PROJ_E.length);
-  }
+// Load data from GitHub data.json on startup
+async function loadRemoteData(){
+  try {
+    var url = 'https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+DATA_FILE+'?t='+Date.now();
+    var res = await fetch(url);
+    if(!res.ok) return; // no data.json yet, use defaults
+    var data = await res.json();
 
-  // ── 2. SB_DEFAULT ──
-  var SB_S = '/*__SB_START__*/';
-  var SB_E = '/*__SB_END__*/';
-  var s1 = html.indexOf(SB_S);
-  var s2 = html.indexOf(SB_E);
-  if(s1>=0 && s2>=0){
-    var sbInner = JSON.stringify(sbData).slice(1,-1);
-    var sbStart = html.lastIndexOf('var SB_DEFAULT', s1);
-    html = html.slice(0,sbStart)
-      + 'var SB_DEFAULT = { ' + SB_S + '\n'
-      + sbInner
-      + '\n} ' + SB_E
-      + html.slice(s2 + SB_E.length);
-  }
-
-  // ── 3. weeklyHighlight ──
-  var wh = (weeklyHighlight||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  if(wh){
-    html = html.replace(/var DEFAULT_WH='[^']*';/, "var DEFAULT_WH='本週以政府合作案推進與策略夥伴布局為主，短期需確認觀光局合作方向及新加坡基地資源配置；既有過案項目維持正常推進中。';");
-  }
-
-  // ── 4. DECISIONS ──
-  var dec = {red:(DECISIONS.red||[]),green:(DECISIONS.green||[])};
-  var d1 = html.indexOf("DECISIONS = loadLS('brief_decisions',");
-  if(d1>=0){
-    var depth=0, di=html.indexOf('{',d1), d2=di;
-    for(var i=di;i<html.length;i++){
-      if(html[i]==='{')depth++;
-      else if(html[i]==='}'){depth--;if(depth===0){d2=i+1;break;}}
+    if(data.sb) { sbData = data.sb; }
+    if(data.weeklyHighlight) { weeklyHighlight = data.weeklyHighlight; }
+    if(data.decisions) { DECISIONS = data.decisions; }
+    if(data.projects && data.projects.length) {
+      PROJECTS = data.projects;
+      nextId = Math.max.apply(null, PROJECTS.map(function(p){return p.id;}).concat([17]))+1;
     }
-    var d3=html.indexOf(')',d2)+1;
-    html = html.slice(0,d1)
-      + "DECISIONS = loadLS('brief_decisions', "
-      + JSON.stringify(dec)
-      + ")"
-      + html.slice(d3);
-  }
+    if(data.strategy && data.strategy.length) { STRATEGY = data.strategy; }
 
-  return html;
+    // Re-render everything with loaded data
+    renderStatusBoard();
+    renderWeeklyHighlightBadges();
+    syncOverview();
+    renderWeeklyBrief();
+    renderAllSections();
+    renderTimeline();
+    buildMetrics();
+  } catch(e) {
+    console.log('Remote data load skipped:', e.message);
+  }
 }
 
 
@@ -1991,7 +1537,7 @@ function renderWeeklyHighlightBadges(){
 }
 
 /* ═══ INIT ═══ */
-buildSidebar();buildMobileNav();buildStagePagesShell();initSections();syncOverview();renderWeeklyBrief();renderStatusBoard();renderWeeklyHighlightBadges();
+buildSidebar();buildMobileNav();buildStagePagesShell();initSections();syncOverview();renderWeeklyBrief();renderStatusBoard();renderWeeklyHighlightBadges();loadRemoteData();
 
 </script>
 </body>
