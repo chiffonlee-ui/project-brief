@@ -1,0 +1,1399 @@
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>專案 Brief 儀表板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#F5F4F0;--surface:#FFF;--surface2:#EFEDE8;--border:rgba(0,0,0,.08);--border-md:rgba(0,0,0,.14);
+  --text:#18181A;--text-2:#5A5A60;--text-3:#9A9AA0;
+  --green:#1A9E6E;--green-bg:#E3F5EE;--orange:#D4720A;--orange-bg:#FEF0DC;
+  --red:#D63B3B;--red-bg:#FDE8E8;--blue:#2563C4;--blue-bg:#E8EFFE;
+  --purple:#7048C8;--purple-bg:#F0EBFC;--yellow:#B58A00;--yellow-bg:#FEFADC;
+  --radius:10px;--radius-lg:14px;--radius-pill:999px;--nav-w:228px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+
+/* Sidebar */
+.sidebar{width:var(--nav-w);min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:20;overflow-y:auto}
+.sidebar-logo{padding:1.3rem 1.1rem .9rem;border-bottom:1px solid var(--border)}
+.sidebar-logo h1{font-family:'Sora',sans-serif;font-size:.97rem;font-weight:600;letter-spacing:-.02em}
+.sidebar-logo span{font-size:.69rem;color:var(--text-3);margin-top:2px;display:block}
+.nav-section{padding:.85rem .75rem .3rem;font-size:.62rem;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);font-weight:600}
+.nav-item{display:flex;align-items:center;gap:9px;padding:6px .95rem;font-size:.81rem;cursor:pointer;border-left:2px solid transparent;color:var(--text-2);transition:all .12s;user-select:none}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:linear-gradient(90deg,rgba(112,72,200,.08),transparent);color:var(--text);border-left-color:var(--purple);border-left-width:3px;font-weight:600}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.nav-count{margin-left:auto;font-size:.67rem;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-pill);padding:1px 7px;font-family:'DM Mono',monospace;color:var(--text-3)}
+.nav-divider{height:1px;background:var(--border);margin:.35rem 0}
+.nav-bottom{margin-top:auto;padding:.85rem .95rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.nav-bottom-item{display:flex;align-items:center;gap:7px;font-size:.77rem;color:var(--text-3);padding:4px 3px;border-radius:5px;cursor:pointer;transition:background .12s}
+.nav-bottom-item:hover{background:var(--surface2);color:var(--text-2)}
+
+/* Main */
+.main{margin-left:var(--nav-w);flex:1;padding:1.8rem 2.2rem 5rem;min-width:0}
+.page{display:none}
+.page.active{display:block;animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:1.6rem;flex-wrap:wrap}
+.page-header h1{font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:600;letter-spacing:-.025em;margin-bottom:2px}
+.page-header p{font-size:.78rem;color:var(--text-2)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--radius);font-size:.78rem;font-weight:500;cursor:pointer;border:1px solid var(--border-md);background:var(--surface);color:var(--text-2);transition:all .12s;white-space:nowrap;font-family:inherit}
+.btn:hover{background:var(--surface2);color:var(--text);border-color:rgba(0,0,0,.22)}
+.btn-primary{background:var(--text);color:#fff;border-color:var(--text)}
+.btn-primary:hover{background:#333}
+.btn-danger{color:var(--red);border-color:rgba(214,59,59,.25)}
+.btn-danger:hover{background:var(--red-bg);color:var(--red)}
+.btn-sm{padding:4px 9px;font-size:.71rem}
+
+/* Metrics */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin-bottom:1.3rem}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.85rem 1rem;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--mc-color,#ccc)}
+.mc-val{font-family:'Sora',sans-serif;font-size:1.45rem;font-weight:600;display:block;line-height:1.1;color:var(--mc-color,var(--text))}
+.mc-lbl{font-size:.7rem;color:var(--text-2);margin-top:3px;display:block}
+.mc-sub{font-size:.66rem;color:var(--text-3);margin-top:1px;display:block}
+
+/* Pipeline */
+.pipeline-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.95rem 1.1rem;margin-bottom:1.3rem}
+.pipe-bar{display:flex;border-radius:6px;overflow:hidden;height:11px;margin-bottom:11px;gap:2px}
+.pipe-seg{height:100%;border-radius:3px;flex-shrink:0;min-width:8px}
+.pipe-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:6px}
+.legend-card{display:flex;align-items:center;gap:8px;padding:6px 9px;background:var(--surface2);border-radius:7px;border:1px solid var(--border)}
+.legend-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.legend-meta{display:flex;flex-direction:column;align-items:flex-end;gap:1px;margin-left:auto}
+.legend-cnt{font-size:.68rem;font-family:'DM Mono',monospace;color:var(--text-2)}
+.legend-rev{font-size:.65rem;font-family:'DM Mono',monospace;color:var(--green)}
+
+/* Strategy */
+.strat-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.95rem 1.1rem;margin-bottom:1.3rem}
+.strat-section-head{display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap}
+.strat-section-head h2{font-family:'Sora',sans-serif;font-size:.86rem;font-weight:600;flex:1}
+.strat-row{display:flex;align-items:flex-start;gap:9px;padding:7px 6px;border-radius:7px;transition:background .12s;margin-bottom:3px;border:1.5px solid transparent}
+.strat-row.drag-over-strat{border-color:var(--purple)!important;background:var(--purple-bg)!important}
+.strat-row.dragging-strat{opacity:.3}
+.strat-grip{cursor:grab;color:var(--text-3);font-size:14px;flex-shrink:0;margin-top:2px;user-select:none}
+.strat-badge{flex-shrink:0;font-size:.66rem;font-weight:600;padding:3px 8px;border-radius:var(--radius-pill);border:1.5px solid currentColor;min-width:44px;text-align:center;margin-top:2px}
+.strat-title{font-size:.84rem;font-weight:500;margin-bottom:1px}
+.strat-desc{font-size:.76rem;color:var(--text-2);line-height:1.6}
+.strat-del{background:none;border:none;cursor:pointer;color:var(--text-3);padding:3px;border-radius:4px;flex-shrink:0}
+.strat-del:hover{color:var(--red);background:var(--red-bg)}
+
+/* Gantt */
+.tl-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.95rem 1.1rem;margin-bottom:1.3rem;overflow-x:auto}
+.tl-head{display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap}
+.tl-head h2{font-family:'Sora',sans-serif;font-size:.86rem;font-weight:600;flex:1}
+.gantt-wrap{min-width:840px}
+.gantt-header{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--border);margin-bottom:1px}
+.gantt-h-label{font-size:.61rem;font-weight:600;color:var(--text-3);padding:5px 8px;text-transform:uppercase;letter-spacing:.06em}
+.gantt-months{display:grid;grid-template-columns:repeat(12,1fr)}
+.gantt-month{font-size:.62rem;color:var(--text-3);text-align:center;padding:5px 2px;border-left:1px solid var(--border);font-weight:500}
+.gantt-month.gm-now{color:var(--orange);font-weight:700}
+.gantt-row{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--border);min-height:44px;cursor:pointer;transition:background .12s}
+.gantt-row:hover{background:var(--surface2)}
+.gantt-row:last-child{border-bottom:none}
+.gantt-info{padding:6px 8px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;gap:2px}
+.gantt-proj-name{font-size:.77rem;font-weight:500;border-left:3px solid var(--g-dot,#ccc);padding-left:6px;display:flex;align-items:center;gap:4px;overflow:hidden}
+.gantt-proj-name>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.gantt-proj-meta{font-size:.64rem;color:var(--text-3);padding-left:9px;margin-top:1px}
+.gantt-tl{position:relative;display:grid;grid-template-columns:repeat(12,1fr);overflow:visible}
+.gantt-col{border-left:1px solid var(--border);min-height:44px;pointer-events:none}
+.gantt-col.gc-now{border-left:1.5px solid var(--orange);opacity:.65}
+.gantt-col.gc-past{background:rgba(0,0,0,.022)}
+.gantt-ms-pin{position:absolute;top:50%;transform:translate(-50%,-50%);z-index:2}
+.gantt-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:var(--radius-pill);font-size:.66rem;font-weight:600;white-space:nowrap;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.09);background:var(--blue-bg);color:var(--blue);border:1px solid rgba(37,99,196,.2);transition:all .15s}
+.gantt-badge:hover{box-shadow:0 2px 8px rgba(0,0,0,.14);transform:translate(-50%,-60%)}
+.gantt-badge.late{background:var(--red-bg);color:var(--red);border-color:rgba(214,59,59,.3);animation:gb 1.3s ease-in-out infinite}
+@keyframes gb{0%,100%{box-shadow:0 1px 4px rgba(214,59,59,.15)}50%{box-shadow:0 0 0 4px rgba(214,59,59,.18)}}
+.gantt-num{width:15px;height:15px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.59rem;font-weight:700;color:#fff;flex-shrink:0}
+.gantt-today{position:absolute;top:0;bottom:0;width:0;border-left:2.5px dashed var(--orange);z-index:3;pointer-events:none}
+.gantt-today::before{content:'TODAY';position:absolute;top:-2px;left:50%;transform:translateX(-50%);font-size:.59rem;font-weight:800;color:#fff;letter-spacing:.07em;white-space:nowrap;background:var(--orange);padding:2px 7px;border-radius:var(--radius-pill);box-shadow:0 2px 8px rgba(212,114,10,.35);font-family:'DM Mono',monospace}
+.gantt-empty{font-size:.79rem;color:var(--text-3);padding:1.1rem;display:flex;align-items:center;gap:8px}
+
+/* Tabs */
+.sec-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.sec-tab{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--radius-pill);font-size:.77rem;font-weight:500;cursor:pointer;border:1.5px solid transparent;color:var(--text-2);background:var(--surface);transition:all .15s;user-select:none;white-space:nowrap}
+.sec-tab:hover{background:var(--surface2);color:var(--text);border-color:var(--border-md)}
+.sec-tab.active{color:#fff;box-shadow:0 2px 7px rgba(0,0,0,.12)}
+.sec-tab .tc{font-size:.66rem;padding:1px 6px;border-radius:999px;font-weight:700;background:rgba(255,255,255,.28)}
+.sec-tab:not(.active) .tc{background:var(--surface2);color:var(--text-3)}
+
+/* Alert */
+.alert-banner{display:flex;align-items:flex-start;gap:9px;padding:9px 13px;border-radius:var(--radius);background:var(--yellow-bg);border:1px solid rgba(181,138,0,.28);margin-bottom:9px;font-size:.78rem;color:#7A5C00;line-height:1.5}
+
+/* Sections */
+.sections-wrap{display:flex;flex-direction:column;gap:1.65rem}
+.sec-block-head{display:flex;align-items:center;gap:9px;margin-bottom:8px;flex-wrap:wrap}
+.sec-title{font-family:'Sora',sans-serif;font-size:.91rem;font-weight:600;display:flex;align-items:center;gap:6px}
+.sec-count{font-size:.66rem;padding:2px 7px;border-radius:var(--radius-pill);font-weight:600}
+.sec-desc{font-size:.73rem;color:var(--text-3);flex:1}
+.sec-rev{font-size:.67rem;padding:2px 8px;border-radius:var(--radius-pill);font-family:'DM Mono',monospace;font-weight:500}
+.table-wrap{width:100%;overflow-x:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.master-table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:1080px}
+.master-table thead tr{background:var(--surface2)}
+.master-table th{padding:7px 9px;text-align:left;font-size:.61rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);white-space:nowrap;border-bottom:1px solid var(--border)}
+.master-table td{padding:7px 9px;border-bottom:1px solid var(--border);line-height:1.55;vertical-align:top}
+.master-table tr:last-child td{border-bottom:none}
+.master-table tr:hover td{background:rgba(0,0,0,.015)}
+.tbl-grip{cursor:grab;color:var(--text-3);text-align:center;width:22px;padding:5px 3px!important}
+.tbl-dragging{opacity:.3}
+.tbl-drag-over td{background:rgba(112,72,200,.06)!important;box-shadow:inset 0 2px 0 var(--purple)}
+.stage-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:var(--radius-pill);font-size:.68rem;font-weight:500;white-space:nowrap}
+.tbl-select{font-size:.68rem;border:1px solid var(--border-md);border-radius:var(--radius-pill);padding:2px 5px;background:var(--surface);color:var(--text-2);cursor:pointer;margin-top:2px;max-width:130px;width:100%}
+.action-btns{display:flex;flex-direction:column;gap:3px;min-width:60px}
+.late-badge{display:inline-flex;align-items:center;gap:2px;font-size:.61rem;padding:1px 5px;border-radius:var(--radius-pill);background:var(--red-bg);color:var(--red);font-weight:500;margin-top:2px}
+.s-intl{display:inline-flex;align-items:center;gap:2px;font-size:.66rem;padding:1px 5px;border-radius:var(--radius-pill);background:var(--green-bg);color:var(--green);margin-top:2px}
+.drop-zone{border:2px dashed var(--border-md);border-radius:var(--radius);padding:7px;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:5px;font-size:.73rem;color:var(--text-3);transition:all .15s;min-height:36px}
+.drop-zone.dz-active,.sec-h-drop.dz-active{border-color:var(--purple);background:var(--purple-bg);color:var(--purple);border-radius:7px}
+.empty-state{padding:1.3rem;text-align:center;color:var(--text-3);font-size:.78rem}
+.empty-state i{font-size:17px;display:block;margin:0 auto 5px}
+.empty-hint{margin-top:4px;font-size:.72rem;color:var(--orange);display:flex;align-items:center;justify-content:center;gap:4px;line-height:1.5}
+
+/* Editable */
+[contenteditable]{outline:none;border-radius:4px;padding:1px 3px;margin:-1px -3px;transition:background .12s;cursor:text}
+[contenteditable]:hover{background:rgba(0,0,0,.04)}
+[contenteditable]:focus{background:rgba(112,72,200,.07);box-shadow:0 0 0 1.5px rgba(112,72,200,.38)}
+[contenteditable]:empty:before{content:attr(data-placeholder);color:var(--text-3);font-style:italic;pointer-events:none}
+td[contenteditable]:focus{box-shadow:inset 0 0 0 1.5px var(--purple);background:rgba(112,72,200,.04)!important}
+
+/* Stage detail */
+.proj-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.proj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.proj-card-head{display:flex;align-items:center;gap:7px;padding:9px 11px;cursor:pointer;user-select:none}
+.proj-card-head:hover{background:var(--surface2)}
+.proj-card-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.proj-card-name{font-size:.86rem;font-weight:500;flex:1}
+.proj-card-del{background:none;border:none;padding:3px;cursor:pointer;color:var(--text-3);border-radius:4px;flex-shrink:0;transition:color .12s}
+.proj-card-del:hover{color:var(--red);background:var(--red-bg)}
+.proj-card-toggle{font-size:.7rem;color:var(--text-2);background:none;border:1px solid var(--border-md);padding:3px 8px;border-radius:var(--radius-pill);cursor:pointer;display:flex;align-items:center;gap:3px;white-space:nowrap;flex-shrink:0}
+.proj-detail{border-top:1px solid var(--border);padding:11px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:9px;background:var(--surface2)}
+.dfl{font-size:.61rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:3px;display:flex;align-items:center;gap:3px}
+.dfv{font-size:.8rem;color:var(--text);line-height:1.6}
+.dfv.mono{font-family:'DM Mono',monospace;font-size:.76rem}
+.dfv.green{color:var(--green)}.dfv.blue{color:var(--blue)}.dfv.purple{color:var(--purple)}
+.dfv textarea{width:100%;font-size:.8rem;resize:vertical;min-height:50px;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 7px;background:var(--surface);color:var(--text);line-height:1.6;font-family:'Noto Sans TC',sans-serif}
+.dfv textarea:focus{outline:none;border-color:var(--purple)}
+.link-row{display:flex;gap:5px;align-items:center}
+.link-input{flex:1;font-size:.76rem;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 7px;background:var(--surface);color:var(--text);font-family:'DM Mono',monospace}
+.link-input:focus{outline:none;border-color:var(--purple)}
+.link-go{font-size:.73rem;padding:5px 8px;border:1px solid var(--border-md);border-radius:var(--radius);background:var(--surface);color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:3px;transition:all .12s}
+.link-go:hover:not(:disabled){background:var(--text);color:#fff}
+.link-go:disabled{opacity:.3;cursor:default}
+.stg-sel{font-size:.76rem;border:1px solid var(--border-md);border-radius:var(--radius-pill);padding:3px 8px;background:var(--surface);color:var(--text-2);cursor:pointer}
+.intl-toggle{display:flex;align-items:center;gap:5px;font-size:.76rem;color:var(--text-2);cursor:pointer}
+.add-item-input{flex:1;font-size:.81rem;border:1px dashed var(--border-md);border-radius:var(--radius);padding:6px 10px;background:var(--surface);color:var(--text);font-family:'Noto Sans TC',sans-serif}
+.add-item-input:focus{outline:none;border-color:var(--purple);border-style:solid}
+.stg-summary{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.9rem 1.05rem;margin-top:9px}
+.stg-action{font-size:.78rem;color:var(--text-2);margin-top:3px;display:flex;align-items:flex-start;gap:5px;line-height:1.6}
+.empty-row{font-size:.79rem;color:var(--text-3);padding:10px;background:var(--surface2);border-radius:var(--radius);display:flex;align-items:center;gap:7px;border:1px dashed var(--border-md)}
+.draft-badge{font-size:.65rem;padding:2px 7px;border-radius:var(--radius-pill);background:#EF9F27;color:#fff;font-weight:600;flex-shrink:0}
+
+/* Milestone */
+.ms-section{grid-column:1/-1;border-top:1px solid var(--border);padding-top:9px;margin-top:1px}
+.ms-list{display:flex;flex-direction:column;gap:4px;margin-bottom:7px}
+.ms-item{display:flex;align-items:center;gap:7px;font-size:.78rem;padding:5px 7px;border-radius:5px;background:var(--surface);border:1px solid var(--border)}
+.ms-item.done-ms{opacity:.5}
+.ms-date{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--text-3);flex-shrink:0}
+.ms-task{flex:1}
+.ms-del{background:none;border:none;cursor:pointer;color:var(--text-3);padding:2px 3px;border-radius:3px;font-size:.73rem;flex-shrink:0}
+.ms-del:hover{color:var(--red)}
+.ms-add-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.ms-date-in,.ms-task-in{font-size:.77rem;border:1px solid var(--border-md);border-radius:var(--radius);padding:5px 7px;background:var(--surface);color:var(--text);font-family:'Noto Sans TC',sans-serif}
+.ms-date-in{width:130px;font-family:'DM Mono',monospace}
+.ms-task-in{flex:1;min-width:130px}
+
+/* Gantt edit */
+.ge-modal{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:600;display:flex;align-items:center;justify-content:center}
+.ge-panel{background:var(--surface);border-radius:var(--radius-lg);padding:1.3rem;width:355px;box-shadow:0 8px 32px rgba(0,0,0,.17);max-height:83vh;overflow-y:auto}
+.ge-ms-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border)}
+.ge-ms-row:last-of-type{border-bottom:none}
+.ge-ms-task{flex:1;font-size:.79rem;outline:none;border:none;background:transparent;cursor:text;border-radius:3px;padding:2px 4px;color:var(--text)}
+.ge-ms-task:focus{background:rgba(112,72,200,.07)}
+.ge-ms-del{background:none;border:none;cursor:pointer;color:var(--text-3);padding:2px;border-radius:3px;font-size:12px}
+.ge-ms-del:hover{color:var(--red);background:var(--red-bg)}
+.ge-footer{display:flex;gap:7px;justify-content:flex-end;margin-top:11px;padding-top:9px;border-top:1px solid var(--border)}
+.ge-add-btn{width:100%;margin-top:7px;background:none;border:1px dashed var(--border-md);border-radius:var(--radius);padding:6px;font-size:.76rem;cursor:pointer;color:var(--text-3);display:flex;align-items:center;justify-content:center;gap:4px;font-family:inherit}
+.ge-add-btn:hover{background:var(--surface2);color:var(--text-2)}
+.ge-add-row{display:flex;gap:5px;flex-wrap:wrap}
+
+/* Decision */
+.dec-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.95rem 1.05rem}
+.dec-col-head{display:flex;align-items:center;gap:7px;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.dec-col-head h3{font-family:'Sora',sans-serif;font-size:.83rem;font-weight:600;flex:1}
+.dec-col.red{border-left:3.5px solid var(--red)}
+.dec-col.green{border-left:3.5px solid var(--green)}
+.dec-items{display:flex;flex-direction:column;gap:6px}
+.dec-item{display:flex;align-items:flex-start;gap:8px;padding:7px 8px;border-radius:7px;font-size:.78rem;line-height:1.6}
+.dec-item.red-item{background:var(--red-bg)}
+.dec-item.green-item{background:var(--green-bg)}
+.dec-item-body{flex:1}
+.dec-title{font-weight:500;margin-bottom:1px}
+.dec-desc{font-size:.73rem;color:var(--text-2);line-height:1.6}
+.dec-add-btn{margin-top:7px;background:none;border:1px dashed var(--border-md);border-radius:var(--radius);padding:5px 9px;font-size:.73rem;cursor:pointer;color:var(--text-3);width:100%;display:flex;align-items:center;justify-content:center;gap:4px;font-family:inherit}
+.dec-add-btn:hover{background:var(--surface2);color:var(--text-2)}
+
+/* Misc */
+.finds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:1rem}
+.find-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.85rem .9rem}
+.find-head{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:.82rem;font-weight:500;font-family:'Sora',sans-serif}
+.find-body{font-size:.76rem;color:var(--text-2);line-height:1.65}
+.divider{border:none;border-top:1px solid var(--border);margin:1.3rem 0}
+.sec-label{font-size:.62rem;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);margin-bottom:6px}
+.weekly-item{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)}
+.weekly-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;font-size:.67rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.weekly-text{flex:1;font-size:.82rem;color:var(--text);line-height:1.6;outline:none;border-radius:4px;padding:1px 3px;margin:-1px -3px;transition:background .12s;cursor:text}
+.weekly-text:hover{background:rgba(0,0,0,.04)}
+.weekly-text:focus{background:rgba(214,59,59,.07);box-shadow:0 0 0 1.5px rgba(214,59,59,.35)}
+.weekly-del{background:none;border:none;cursor:pointer;color:var(--text-3);padding:3px;border-radius:4px;flex-shrink:0;font-size:12px;transition:color .12s}
+.weekly-del:hover{color:var(--red);background:var(--red-bg)}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--text);color:#fff;border-radius:var(--radius);padding:8px 14px;font-size:.78rem;z-index:999;opacity:0;transform:translateY(8px);transition:all .22s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:3px}
+
+/* ═══ THREE-COLOR STATUS BOARD ═══ */
+.status-board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.status-col{border-radius:var(--radius-lg);padding:1rem 1.1rem;min-height:110px;position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s;cursor:default}
+.status-col:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.10)}
+.status-col::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+.status-col.s-red{background:linear-gradient(135deg,rgba(255,245,245,.95),rgba(255,238,238,.7));border:1.5px solid rgba(214,59,59,.22);backdrop-filter:blur(4px)}.status-col.s-red::before{background:linear-gradient(90deg,var(--red),rgba(214,59,59,.6))}
+.status-col.s-orange{background:linear-gradient(135deg,rgba(255,248,235,.95),rgba(255,243,220,.7));border:1.5px solid rgba(212,114,10,.22);backdrop-filter:blur(4px)}.status-col.s-orange::before{background:linear-gradient(90deg,var(--orange),rgba(212,114,10,.6))}
+.status-col.s-green{background:linear-gradient(135deg,rgba(236,252,243,.95),rgba(220,248,234,.7));border:1.5px solid rgba(26,158,110,.22);backdrop-filter:blur(4px)}.status-col.s-green::before{background:linear-gradient(90deg,var(--green),rgba(26,158,110,.6))}
+.status-col-head{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.status-col-head h3{font-family:'Sora',sans-serif;font-size:.78rem;font-weight:700;flex:1}
+.status-col.s-red .status-col-head h3{color:var(--red)}
+.status-col.s-orange .status-col-head h3{color:var(--orange)}
+.status-col.s-green .status-col-head h3{color:var(--green)}
+.status-items{display:flex;flex-direction:column;gap:5px}
+.status-item{display:flex;align-items:flex-start;gap:7px;font-size:.78rem;line-height:1.6;padding:5px 7px;border-radius:7px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(0,0,0,.06);transition:box-shadow .12s}
+.status-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.10)}
+.status-item-text{flex:1;outline:none;border-radius:4px;padding:1px 3px;margin:-1px -3px;transition:background .12s;cursor:text}
+.status-item-text:hover{background:rgba(0,0,0,.04)}
+.status-item-text:focus{background:rgba(112,72,200,.07);box-shadow:0 0 0 1.5px rgba(112,72,200,.38)}
+.status-item-del{background:none;border:none;cursor:pointer;color:rgba(0,0,0,.25);padding:2px;border-radius:3px;font-size:11px;flex-shrink:0;margin-top:1px;transition:color .12s}
+.status-item-del:hover{color:var(--red)}
+.status-add-btn{margin-top:7px;width:100%;background:rgba(255,255,255,.5);border:1px dashed rgba(0,0,0,.18);border-radius:var(--radius);padding:4px;font-size:.72rem;cursor:pointer;color:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;gap:4px;font-family:inherit;transition:all .12s}
+.status-add-btn:hover{background:rgba(255,255,255,.85);color:rgba(0,0,0,.7)}
+@media(max-width:720px){.status-board{grid-template-columns:1fr}}
+@media(max-width:720px){:root{--nav-w:0}.sidebar{display:none}.main{margin-left:0;padding:1rem 1rem 3rem}
+.mob-nav{display:flex;overflow-x:auto;gap:5px;padding-bottom:6px;margin-bottom:1rem}
+.mob-nav-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:var(--radius-pill);font-size:.73rem;font-weight:500;cursor:pointer;border:1.5px solid transparent;white-space:nowrap;flex-shrink:0}
+.mob-nav-btn.active{border-color:currentColor}.mob-nav-btn:not(.active){opacity:.45}}
+@media(min-width:721px){.mob-nav{display:none}}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo"><h1 style="font-size:.88rem;line-height:1.3">開發策略專案<br>推進總覽</h1><span style="font-size:.63rem;letter-spacing:.01em">Government &amp; Strategic Partnership Pipeline</span>
+    <div id="week-badge" style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;background:rgba(112,72,200,.09);border:1px solid rgba(112,72,200,.2);border-radius:999px;padding:2px 9px 2px 7px;font-size:.63rem;font-weight:600;color:var(--purple);font-family:'DM Mono',monospace;letter-spacing:.01em"><i class="ti ti-calendar-week" style="font-size:10px"></i><span id="week-label">—</span></div>
+  </div>
+  <div class="nav-section">檢視</div>
+  <div class="nav-item active" onclick="goPage('overview')" id="nav-overview"><i class="ti ti-layout-dashboard" style="font-size:14px"></i>總覽</div>
+  <div class="nav-divider"></div>
+  <div class="nav-section">階段</div>
+  <div id="sidebar-stages"></div>
+  <div class="nav-bottom">
+    <div class="nav-bottom-item" onclick="exportJSON()"><i class="ti ti-download" style="font-size:13px"></i>匯出 JSON</div>
+    <div class="nav-bottom-item" onclick="exportCSV()"><i class="ti ti-table-export" style="font-size:13px"></i>匯出 CSV</div>
+    <div class="nav-bottom-item" style="cursor:default"><i class="ti ti-device-floppy" style="font-size:13px"></i>自動儲存中</div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="mob-nav" id="mob-nav"></div>
+
+  <div class="page active" id="page-overview">
+    <div class="page-header">
+      <div><h1 style="font-size:1.35rem;letter-spacing:-.03em">開發策略專案推進總覽</h1><p style="font-size:.75rem;color:var(--text-3);margin-top:2px;letter-spacing:.02em">Government &amp; Strategic Partnership Pipeline &nbsp;·&nbsp; 點擊文字直接編輯 &nbsp;·&nbsp; 拖曳排序跨區移動</p></div>
+      <div style="display:flex;gap:7px">
+        <button class="btn" onclick="exportCSV()"><i class="ti ti-table-export" style="font-size:12px"></i>CSV</button>
+        <button class="btn" onclick="exportJSON()"><i class="ti ti-download" style="font-size:12px"></i>JSON</button>
+      </div>
+    </div>
+
+    <!-- ① 本週重點 -->
+    <div style="background:rgba(112,72,200,0.04);border:1px solid rgba(112,72,200,0.15);border-left:4px solid var(--purple);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;margin-bottom:1.2rem">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:.95rem">🎯</span>
+        <span style="font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;color:var(--purple)">本週重點</span>
+        <span style="font-size:.67rem;color:var(--text-3);margin-left:auto">點擊文字可直接編輯</span>
+      </div>
+      <div id="weekly-highlight-text"
+        contenteditable="true"
+        onblur="weeklyHighlight=this.innerText.trim();saveLS()"
+        style="font-size:.82rem;color:var(--text-2);line-height:1.75;outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;transition:background .12s;cursor:text"
+        onmouseover="this.style.background='rgba(0,0,0,.03)'"
+        onmouseout="this.style.background=''"
+        onfocus="this.style.background='rgba(112,72,200,.06)'"></div>
+    </div>
+
+
+    <!-- ② 三色狀態看板 -->
+    <div class="status-board" id="status-board-wrap">
+      <div class="status-col s-red">
+        <div class="status-col-head">
+          <span style="font-size:1rem">🔴</span>
+          <h3>需裁示</h3>
+          <span style="font-size:.64rem;color:var(--red);padding:1px 7px;border-radius:999px;background:rgba(214,59,59,.12);font-weight:600" id="sb-red-cnt">0 項</span>
+        </div>
+        <div class="status-items" id="sb-red-items"></div>
+        <button class="status-add-btn" onclick="addStatusItem('red')"><i class="ti ti-plus" style="font-size:10px"></i>新增</button>
+      </div>
+      <div class="status-col s-orange">
+        <div class="status-col-head">
+          <span style="font-size:1rem">🟠</span>
+          <h3>需關注</h3>
+          <span style="font-size:.64rem;color:var(--orange);padding:1px 7px;border-radius:999px;background:rgba(212,114,10,.12);font-weight:600" id="sb-orange-cnt">0 項</span>
+        </div>
+        <div class="status-items" id="sb-orange-items"></div>
+        <button class="status-add-btn" onclick="addStatusItem('orange')"><i class="ti ti-plus" style="font-size:10px"></i>新增</button>
+      </div>
+      <div class="status-col s-green">
+        <div class="status-col-head">
+          <span style="font-size:1rem">🟢</span>
+          <h3>正常推進</h3>
+          <span style="font-size:.64rem;color:var(--green);padding:1px 7px;border-radius:999px;background:rgba(26,158,110,.12);font-weight:600" id="sb-green-cnt">0 項</span>
+        </div>
+        <div class="status-items" id="sb-green-items"></div>
+        <button class="status-add-btn" onclick="addStatusItem('green')"><i class="ti ti-plus" style="font-size:10px"></i>新增</button>
+      </div>
+    </div>
+
+
+    <!-- ③ 量化指標 -->
+    <div class="metrics-grid" id="ov-metrics"></div>
+    <div class="pipeline-card">
+      <div class="sec-label">管線分布</div>
+      <div class="pipe-bar" id="ov-pipe"></div>
+      <div class="pipe-legend" id="ov-legend"></div>
+    </div>
+    <div class="strat-section">
+      <div class="strat-section-head">
+        <i class="ti ti-target" style="font-size:15px;color:var(--purple)"></i>
+        <h2>戰略目標與優先順序</h2>
+        <span style="font-size:.67rem;color:var(--text-3)"><i class="ti ti-grip-vertical" style="font-size:10px"></i>拖曳 · 點擊編輯</span>
+        <button class="btn btn-sm" onclick="addStrategy()"><i class="ti ti-plus" style="font-size:11px"></i>新增</button>
+      </div>
+      <div id="strategy-goals"></div>
+    </div>
+    <div class="tl-section">
+      <div class="tl-head">
+        <i class="ti ti-chart-gantt" style="font-size:15px;color:var(--blue)"></i>
+        <h2>全公司關鍵時程軸</h2>
+        <span style="font-size:.67rem;color:var(--text-3)">從5月起12個月 · 🔴=逾期 · 點擊列名可編輯</span>
+      </div>
+      <div id="timeline-list"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap">
+      <input id="search-input" type="text" placeholder="搜尋…" oninput="renderAllSections()"
+        style="flex:0 0 195px;font-size:.8rem;border:1px solid var(--border-md);border-radius:var(--radius-pill);padding:5px 12px;font-family:'Noto Sans TC',sans-serif;color:var(--text);background:var(--surface)">
+      <span style="font-size:.67rem;color:var(--text-3)"><i class="ti ti-pencil" style="font-size:10px"></i>點擊編輯 · <i class="ti ti-grip-vertical" style="font-size:10px"></i>拖曳跨區</span>
+    </div>
+    <div class="sec-tabs" id="section-tabs"></div>
+    <div class="sections-wrap" id="all-sections"></div>
+    <hr class="divider">
+    <div class="sec-label">分析報告</div>
+    <div class="finds-grid" style="margin-top:8px">
+      <div class="find-card"><div class="find-head"><i class="ti ti-alert-triangle" style="font-size:13px;color:var(--orange)"></i>瓶頸</div><div class="find-body">提案中階段需追蹤回覆時程；觀光局應盡快確認對方意向。</div></div>
+      <div class="find-card"><div class="find-head"><i class="ti ti-trending-up" style="font-size:13px;color:var(--green)"></i>進展亮點</div><div class="find-body">新創卡成功過案；機制更新持續推進，強化內部複製能力。</div></div>
+      <div class="find-card"><div class="find-head"><i class="ti ti-search" style="font-size:13px;color:var(--purple)"></i>探索漏斗</div><div class="find-body">新案探索需持續補充，建議每月新增 2 件以上。</div></div>
+      <div class="find-card"><div class="find-head"><i class="ti ti-code" style="font-size:13px;color:var(--blue)"></i>開發端</div><div class="find-body">KA 模板與中小店家模板仍在開發中，建議設定交付時程。</div></div>
+    </div>
+    <div class="sec-label" style="margin-top:1rem;margin-bottom:6px">決策分流面板 <span style="font-size:.67rem;color:var(--text-3);font-weight:400">· 點擊文字可直接編輯</span></div>
+    <div id="decision-panel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:13px;margin-bottom:1.1rem"></div>
+    <div style="text-align:center;font-size:.68rem;color:var(--text-3);margin-top:2rem">專案 Brief 儀表板 · 資料自動儲存於 LocalStorage</div>
+  </div>
+
+  <div id="stage-pages"></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══ STAGES ═══ */
+const STAGES=[
+  {id:'explore',label:'新案探索',icon:'ti-search',bg:'#F3EDFB',fg:'#5B2D8E',dot:'#9B59D0',badgeText:'探索中'},
+  {id:'dev',label:'開發中',icon:'ti-code',bg:'#E6F1FB',fg:'#0C447C',dot:'#378ADD',badgeText:'開發中'},
+  {id:'talk',label:'洽談中',icon:'ti-messages',bg:'#EEEDFE',fg:'#3C3489',dot:'#7F77DD',badgeText:'洽談中'},
+  {id:'proposal',label:'提案中',icon:'ti-presentation',bg:'#FEF3E2',fg:'#7A3B1E',dot:'#E8831A',badgeText:'提案中'},
+  {id:'approved',label:'過案',icon:'ti-circle-check',bg:'#E3F5EE',fg:'#085041',dot:'#1A9E6E',badgeText:'已過案'},
+  {id:'mechanism',label:'機制更新',icon:'ti-settings',bg:'#FCE8F0',fg:'#7A1E3A',dot:'#C4356A',badgeText:'更新中'},
+];
+const STAGE_SUMMARIES={
+  explore:{text:'新案探索階段，記錄剛發現的市場機會與初步接觸。',action:'評估可行性，決定是否進入開發或洽談。'},
+  dev:{text:'方案或產品正在開發中，尚未進入正式洽談。',action:'設定交付時程，確保開發成果能支援洽談。'},
+  talk:{text:'與客戶或局處進行積極洽談，方案尚未正式提出。',action:'確認需求，準備進入提案階段。'},
+  proposal:{text:'提案已送出或正在準備中，等待客戶回覆。',action:'追蹤提案進度，確認回覆時程。'},
+  approved:{text:'案件已過案，進入後續執行準備。',action:'確認資源到位，規劃下一步行動。'},
+  mechanism:{text:'內部機制開發與優化，支撐各項業務的標準化複製。',action:'持續更新機制文件，確保流程與實務同步。'},
+};
+const STAGE_EMPTY_HINTS={
+  explore:'目前無探索中案件，建議主動尋找市場機會',
+  dev:'目前無開發中案件',
+  talk:'⚠️ 目前無洽談中案件，可能導致未來提案斷層',
+  proposal:'⚠️ 目前無提案中案件，下半年管線恐面臨斷層',
+  approved:'目前無已過案件',
+  mechanism:'目前無機制更新項目',
+  ka_notes:'尚無 KA 延伸說明，可記錄開發背景與關鍵客戶筆記',
+};
+const FUNNEL_STAGES=['talk','proposal'];
+
+/* ═══ SECTIONS ═══ */
+const SECTIONS=[
+  {id:'alliance',label:'🤝 聯盟型合作',color:'#C4356A',bg:'#FCE8F0',desc:'聯盟夥伴、合作型案件'},
+  {id:'proposal',label:'📋 準提案案件',color:'#D4720A',bg:'#FEF0DC',desc:'即將或正在提案的案件'},
+  {id:'approved',label:'✅ 已過案',color:'#1A9E6E',bg:'#E3F5EE',desc:'合約已簽署或正式核准的案件'},
+  {id:'mechanism',label:'⚙️ 改善機制',color:'#2563C4',bg:'#E8EFFE',desc:'內部流程、機制優化相關'},
+  {id:'idea',label:'💡 靈感',color:'#7048C8',bg:'#F0EBFC',desc:'早期想法、探索中的新案'},
+  {id:'interest',label:'💬 興趣洽談',color:'#1A9E6E',bg:'#E3F5EE',desc:'對方有興趣、正在非正式接觸中'},
+  {id:'ka_notes',label:'📌 延伸 KA 說明',color:'#5A5A60',bg:'#EFEDE8',desc:'KA 開發延伸說明、背景脈絡'},
+];
+
+/* ═══ DATA ═══ */
+const DEFAULT_PROJECTS = [
+  // ── 已過案 ──
+  {id:1,  name:'新創卡',            stageId:'approved', dept:'青年局',   partner:'金融機構',    revenue:'NT$ 200 萬/年', qual:'新創族群獲得專屬金融工具，降低創業門檻',        quant:'目標 5,000 張/季',  strategic:'與金融機構深度綁定，提升轉換壁壘',            dateStart:'2025-Q1',dateEnd:'2026-Q1',intl:false,note:'',link:'',proposeDate:'2026/04',progress:'',quantShops:'200',quantCash:'200',quantMargin:'',_section:'approved',
+    milestones:[{id:1,date:'2026-07-01',task:'Q2 發卡量達標確認',done:false}]},
+
+  {id:2,  name:'新創賦能',          stageId:'approved', dept:'經發局',   partner:'加速器夥伴',  revenue:'NT$ 150 萬',    qual:'提升新創團隊商業化能力與市場連結',               quant:'輔導 30 家/期',     strategic:'建立新創生態話語權，為新加坡輸出準備',        dateStart:'2025-Q2',dateEnd:'2025-Q4',intl:true, note:'',link:'',proposeDate:'2026/04',progress:'',quantShops:'30',quantCash:'150',quantMargin:'',_section:'approved',
+    milestones:[{id:1,date:'2026-06-15',task:'第一期結案報告送交',done:false},{id:2,date:'2026-08-01',task:'課程學辦',done:false}]},
+
+  // ── 新案探索 ──
+  {id:3,  name:'餐飲聯盟',          stageId:'explore',  dept:'創新創業總會',partner:'聯盟會員',  revenue:'會員費',        qual:'建立餐飲業數位服務共同標準',                     quant:'串聯 50+ 店家',     strategic:'垂直生態系建立，形成產業護城河',              dateStart:'2025-Q2',dateEnd:'2025-Q4',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'50',quantCash:'',quantMargin:'',_section:'alliance',
+    milestones:[{id:1,date:'2026-07-15',task:'課程說明會',done:false}]},
+
+  {id:4,  name:'移工卡提案',        stageId:'explore',  dept:'程嗦 3TG 創新總會',partner:'',   revenue:'500～2000萬',   qual:'服務新住民與跨境議題',                           quant:'',                  strategic:'開拓新族群金融服務',                          dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'2026/07',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'alliance',
+    milestones:[]},
+
+  {id:5,  name:'新創聯盟',          stageId:'explore',  dept:'程嗦 創新總會',partner:'',        revenue:'—',             qual:'新創圈資源整合',                                 quant:'',                  strategic:'擴大新創圈影響力',                            dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'alliance',
+    milestones:[]},
+
+  // ── 準提案 ──
+  {id:6,  name:'智慧美食街宏誌',    stageId:'talk',     dept:'經濟部',   partner:'宏誌科技',   revenue:'1000～2000萬',  qual:'擴大新創卡品牌能見度，串聯媒體資源',             quant:'店家 200 家',       strategic:'媒體資源槓桿，提升公司品牌聲量',              dateStart:'2025-Q1',dateEnd:'2025-Q3',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'200',quantCash:'',quantMargin:'',_section:'proposal',
+    milestones:[{id:1,date:'2026-06-25',task:'聯名活動企劃定稿',done:false},{id:2,date:'2026-07-10',task:'計劃送件',done:false}]},
+
+  {id:7,  name:'無人機',            stageId:'talk',     dept:'經濟部',   partner:'中華電信',   revenue:'NT$ 500 萬',    qual:'無人機應用場域建立，帶動智慧城市發展',           quant:'覆蓋 5 個示範區',   strategic:'進入智慧城市賽道，可移植至新加坡場域',        dateStart:'2025-Q1',dateEnd:'2025-Q3',intl:true, note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'500',quantMargin:'',_section:'proposal',
+    milestones:[{id:1,date:'2026-08-30',task:'全區域整合測試',done:false}]},
+
+  // ── 興趣洽談 ──
+  {id:8,  name:'觀光局',            stageId:'talk',     dept:'觀光局',   partner:'待定',       revenue:'估評中',        qual:'觀光場域數位化，提升旅客消費體驗',               quant:'',                  strategic:'打入觀光垂直領域，建立政府標竿案例',          dateStart:'2025-Q2',dateEnd:'TBD',    intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'talk',
+    milestones:[{id:1,date:'2026-06-10',task:'高層拜會與正式提案',done:false},{id:2,date:'2026-07-31',task:'合約草稿送審',done:false}]},
+
+  {id:9,  name:'SITI 台北市品牌提案',stageId:'explore', dept:'',         partner:'',           revenue:'—',             qual:'台北市品牌推廣數位化',                           quant:'',                  strategic:'進入台北市政府採購體系',                      dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'talk',
+    milestones:[]},
+
+  // ── 延伸 KA 說明 ──
+  {id:10, name:'[新創賦能] 芋見綠豆-宏正國際餐飲股份有限公司', stageId:'dev', dept:'',partner:'',revenue:'—', qual:'KA 延伸企業合作說明', quant:'10～20 家', strategic:'延伸 KA 合作場域', dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'15',quantCash:'',quantMargin:'',_section:'ka_notes',
+    milestones:[]},
+
+  {id:11, name:'[新創賦能] 呷尚寶中西式速食連鎖企業', stageId:'dev', dept:'',partner:'',revenue:'—', qual:'KA 延伸連鎖合作說明', quant:'10～20 家', strategic:'延伸 KA 合作場域', dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'15',quantCash:'',quantMargin:'',_section:'ka_notes',
+    milestones:[]},
+
+  {id:12, name:'KA 開發模板',       stageId:'dev',      dept:'業務部',   partner:'',           revenue:'—',             qual:'記錄 KA 開發的歷史背景、策略方向與核心邏輯',     quant:'',                  strategic:'形成可傳承的 KA 方法論，支援業務規模化',      dateStart:'2026-Q1',dateEnd:'持續',   intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'ka_notes',
+    milestones:[{id:1,date:'2026-08-01',task:'KA 方法論 V1.0 文件完成',done:false}]},
+
+  // ── 改善機制 ──
+  {id:13, name:'中小店家模板',      stageId:'dev',      dept:'商業處',   partner:'',           revenue:'—',             qual:'中小型店家快速上線，縮短導入週期',               quant:'',                  strategic:'擴大服務對象至長尾市場',                      dateStart:'2025-Q1',dateEnd:'2025-Q2',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-06-30',task:'UI 原型評審確認',done:false}]},
+
+  {id:14, name:'KA開發機制',        stageId:'mechanism',dept:'業務部',   partner:'',           revenue:'—',             qual:'建立KA業務開發標準流程，提升洽談效率',           quant:'',                  strategic:'制度化複製能力，降低人員流失風險',            dateStart:'2025-Q2',dateEnd:'持續',   intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-07-20',task:'機制 V2.0 文件發布',done:false}]},
+
+  {id:15, name:'審查機制優化',      stageId:'mechanism',dept:'研考會',   partner:'各局處',     revenue:'—',             qual:'統一審查標準，減少主觀判斷差異',                 quant:'',                  strategic:'提升治理品質，強化夥伴信任',                  dateStart:'2025-Q3',dateEnd:'持續',   intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-10-01',task:'審查標準 V2 正式上線',done:false}]},
+
+  // ── 靈感 ──
+  {id:16, name:'AI菜單-作嗑 (Ting)',stageId:'explore',  dept:'',         partner:'靈感',       revenue:'—',             qual:'AI 應用於餐飲點餐體驗',                          quant:'',                  strategic:'探索 AI 與餐飲場域結合的新商模',              dateStart:'',dateEnd:'',intl:false,note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'inspire',
+    milestones:[]},
+
+  // ── 新加坡基地 (機制更新) ──
+  {id:17, name:'新加坡基地籌備',    stageId:'mechanism',dept:'國際部',   partner:'TBD',        revenue:'—',             qual:'東南亞市場橋頭堡，提供台灣新創出海加速服務',    quant:'目標市場：SG/MY/ID',strategic:'建立東南亞品牌形象，擴大政府客戶信任度',      dateStart:'2025-Q3',dateEnd:'持續',   intl:true, note:'',link:'',proposeDate:'',progress:'',quantShops:'',quantCash:'',quantMargin:'',_section:'mechanism',
+    milestones:[{id:1,date:'2026-06-20',task:'線上徵選',done:false},{id:2,date:'2026-09-01',task:'基地正式掛牌啟動',done:false}]}
+]
+const DEFAULT_STRATEGY = [
+  {color:'#D63B3B', title:'新案探索擴大',    desc:'持續發掘新市場機會，每月至少新增 2 個探索案件，建立穩定的案件漏斗。'},
+  {color:'#D4720A', title:'觀光局提案推進',  desc:'填補提案空缺，觀光局應於本季完成提案並取得回覆，高層拜會需儘速安排。'},
+  {color:'#2563C4', title:'新創卡生態系鞏固',desc:'新創卡過案後持續深化，確保後續資源配置與執行節點清楚，Q2 發卡量達標。'},
+  {color:'#7048C8', title:'新加坡基地推進',  desc:'Q3 前完成基地夥伴對接，線上徵選啟動，建立東南亞出海橋頭堡。'},
+  {color:'#C4356A', title:'機制標準化',      desc:'KA 開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。'}
+]
+
+/* ═══ STATE ═══ */
+const TODAY_STR='2026-06-08';
+const TODAY=new Date(TODAY_STR);
+let PROJECTS=(loadLS('brief_projects',DEFAULT_PROJECTS)||[]).filter(function(p){return p&&p.id;});
+let STRATEGY=loadLS('brief_strategy',DEFAULT_STRATEGY);
+let nextId=Math.max.apply(null,PROJECTS.map(function(p){return p.id;}).concat([17]))+1;
+let nextMsId=100;
+let currentPage='overview';
+let currentSectionFilter=(function(){try{return localStorage.getItem('brief_tab')||'all';}catch(e){return 'all';}})();
+const openCards={};
+let weeklyHighlight = (function(){try{return localStorage.getItem('brief_weekly_highlights')||'本週以政府合作案推進與策略夥伴布局為主，短期需確認觀光局合作方向及新加坡基地資源配置；既有過案項目維持正常推進中。';}catch(e){return '本週以政府合作案推進與策略夥伴布局為主，短期需確認觀光局合作方向及新加坡基地資源配置；既有過案項目維持正常推進中。';}})();
+let stratDragIdx=null,tblDragSrcId=null,tblDragOverRow=null;
+let DECISIONS = loadLS('brief_decisions', {
+  red: [
+    {id:1, title:'觀光局洽談授權',  desc:'請裁示是否由高層出面拜會，加速觀光局從洽談推進至正式提案，本季需有明確意向。'},
+    {id:2, title:'新加坡基地預算核定', desc:'Q3 啟動需確認預算規模與負責窗口，請裁示資源調度方式與優先層級。'},
+    {id:3, title:'KA 聯盟合作授權', desc:'新創卡聯盟宏誌與餐飲聯盟需確認合作模式與分潤比例，請裁示合約方向。'},
+    {id:4, title:'跨部門人力協調',  desc:'新創賦能執行期間需研考會與經發局共同配合，請協助協調窗口與工作分工。'}
+  ],
+  green: [
+    {id:1, title:'新創卡過案順利推進', desc:'已正式過案，目標 5,000 張/季，金融機構合作關係穩定，執行中無需額外介入。'},
+    {id:2, title:'模板開發進度正常',  desc:'KA 模板與中小店家模板正按計畫開發，預計 Q2 完成，不需要決策介入。'},
+    {id:3, title:'機制更新持續推進',  desc:'KA 開發機制與審查機制均在更新中，有助業務標準化，屬例行推進事項。'},
+    {id:4, title:'無人機驗收完成',   desc:'示範區 A 已驗收，整合測試預計 Q3 完成，目前進度符合計畫。'}
+  ]
+})
+let nextDecId=10;
+
+/* ═══ LS ═══ */
+function loadLS(key,def){
+  try{var v=localStorage.getItem(key);if(!v)return JSON.parse(JSON.stringify(def));
+    var p=JSON.parse(v);return(Array.isArray(p)?p.filter(Boolean):p)||JSON.parse(JSON.stringify(def));}
+  catch(e){return JSON.parse(JSON.stringify(def));}
+}
+function saveLS(){
+  try{
+    localStorage.setItem('brief_projects',JSON.stringify(PROJECTS));
+    localStorage.setItem('brief_strategy',JSON.stringify(STRATEGY));
+    localStorage.setItem('brief_decisions',JSON.stringify(DECISIONS));
+    localStorage.setItem('brief_tab',currentSectionFilter);
+    localStorage.setItem('brief_sb',JSON.stringify(sbData));
+  }catch(e){console.warn('LS fail',e);}
+}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);}
+
+/* ═══ MIGRATION ═══ */
+(function migrateLs(){
+  try{
+    var raw=localStorage.getItem('brief_projects');
+    if(raw){var arr=JSON.parse(raw);
+      if(!Array.isArray(arr)||arr.length===0||arr.some(function(p){return !p||!Array.isArray(p.milestones)||p.quantShops===undefined;})){
+        ['brief_projects','brief_strategy','brief_decisions'].forEach(function(k){localStorage.removeItem(k);});
+        PROJECTS=JSON.parse(JSON.stringify(DEFAULT_PROJECTS)).filter(function(p){return p&&p.id;});
+        STRATEGY=JSON.parse(JSON.stringify(DEFAULT_STRATEGY));
+      }
+    }
+  }catch(e){PROJECTS=JSON.parse(JSON.stringify(DEFAULT_PROJECTS)).filter(function(p){return p&&p.id;});}
+})();
+
+/* ═══ REVENUE ═══ */
+function parseRev(str){
+  if(!str||str==='—'||str==='')return null;
+  var c=str.replace(/NT\$|,|\s|\/年|\/月|\/季|\/期/g,'');
+  var r=c.match(/(\d+(?:\.\d+)?)[~\-到至](\d+(?:\.\d+)?)/);
+  if(r)return{min:+r[1],max:+r[2]};
+  var s=c.match(/(\d+(?:\.\d+)?)/);
+  if(s)return{min:+s[1],max:+s[1]};
+  return null;
+}
+function fmtRev(min,max){
+  if(!min&&!max)return '—';
+  if(min===max)return 'NT$ '+min+' 萬';
+  return 'NT$ '+min+'～'+max+' 萬';
+}
+function calcRevBySec(secId){
+  var min=0,max=0,cnt=0;
+  PROJECTS.filter(function(p){return p._section===secId;}).forEach(function(p){var r=parseRev(p.revenue);if(r){min+=r.min;max+=r.max;cnt++;}});
+  return{min:min,max:max,cnt:cnt};
+}
+function extractNum(str){
+  if(!str||str==='—'||str==='')return null;
+  var nums=str.replace(/,/g,'').match(/\d+(?:\.\d+)?/g);
+  if(!nums||!nums.length)return null;
+  return Math.max.apply(null,nums.map(Number));
+}
+function calcQuant(){
+  var sh=0,ca=0,ma=0,sc=0,cc=0,mc=0;
+  PROJECTS.forEach(function(p){
+    var s=extractNum(p.quantShops);if(s){sh+=s;sc++;}
+    var c=extractNum(p.quantCash);if(c){ca+=c;cc++;}
+    var m=extractNum(p.quantMargin);if(m){ma+=m;mc++;}
+  });
+  return{shops:sh,shopCnt:sc,cash:ca,cashCnt:cc,margin:ma,marginCnt:mc};
+}
+function fmtNum(n){if(!n)return '—';if(n>=10000)return (n/10000).toFixed(1).replace(/\.0$/,'')+'萬';if(n>=1000)return n.toLocaleString('zh-TW');return String(n);}
+
+/* ═══ TIME ═══ */
+function isLate(p){
+  if(p.stageId==='approved')return false;
+  var e=p.dateEnd||'';
+  if(!e||e==='TBD'||e==='持續'||e.indexOf('Q')>=0)return false;
+  return new Date(e)<TODAY;
+}
+function isMsLate(ms){return !ms.done&&ms.date<=TODAY_STR;}
+
+/* ═══ NAV ═══ */
+function goPage(id){
+  currentPage=id;
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  var t=document.getElementById('page-'+id);if(t)t.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var ni=document.getElementById('nav-'+id);if(ni)ni.classList.add('active');
+  document.querySelectorAll('.mob-nav-btn').forEach(function(b){b.classList.toggle('active',b.dataset.id===id);});
+  if(id==='overview')syncOverview();
+  else{renderStagePage(id);updateNavCounts();buildMetrics();buildPipeline();}
+}
+function buildSidebar(){
+  var c=document.getElementById('sidebar-stages');
+  STAGES.forEach(function(s){
+    var el=document.createElement('div');el.className='nav-item';el.id='nav-'+s.id;
+    el.onclick=function(){goPage(s.id);};
+    el.innerHTML='<span class="nav-dot" style="background:'+s.dot+'"></span>'+s.label+'<span class="nav-count" id="nc-'+s.id+'">0</span>';
+    c.appendChild(el);
+  });
+}
+function buildMobileNav(){
+  var row=document.getElementById('mob-nav');
+  var ov=document.createElement('button');ov.className='mob-nav-btn active';ov.dataset.id='overview';
+  ov.style.cssText='background:var(--surface2);color:var(--text)';
+  ov.innerHTML='<i class="ti ti-layout-dashboard" style="font-size:12px"></i>總覽';
+  ov.onclick=function(){goPage('overview');};row.appendChild(ov);
+  STAGES.forEach(function(s){
+    var b=document.createElement('button');b.className='mob-nav-btn';b.dataset.id=s.id;
+    b.style.cssText='background:'+s.bg+';color:'+s.fg;
+    b.innerHTML='<span class="nav-dot" style="background:'+s.dot+'"></span>'+s.label;
+    b.onclick=function(){goPage(s.id);};row.appendChild(b);
+  });
+}
+function updateNavCounts(){
+  STAGES.forEach(function(s){var el=document.getElementById('nc-'+s.id);if(el)el.textContent=PROJECTS.filter(function(p){return p.stageId===s.id;}).length;});
+}
+
+/* ═══ OVERVIEW ═══ */
+function syncOverview(){
+  updateNavCounts();buildMetrics();buildPipeline();
+  renderStrategy();renderSectionTabs();renderAllSections();
+  renderDecisionPanel();renderTimeline();
+}
+function afterEdit(){
+  updateNavCounts();buildMetrics();buildPipeline();
+  renderSectionTabs();renderAllSections();renderTimeline();saveLS();
+}
+
+function buildMetrics(){
+  var locked=calcRevBySec('approved');
+  var pSecIds=SECTIONS.filter(function(s){return s.id!=='approved';}).map(function(s){return s.id;});
+  var pMin=0,pMax=0,pCnt=0;
+  PROJECTS.filter(function(p){return pSecIds.indexOf(p._section)>=0;}).forEach(function(p){var r=parseRev(p.revenue);if(r){pMin+=r.min;pMax+=r.max;pCnt++;}});
+  var q=calcQuant(),total=PROJECTS.length,lateC=PROJECTS.filter(isLate).length;
+  document.getElementById('ov-metrics').innerHTML=
+    '<div class="mc" style="--mc-color:var(--green)"><span class="mc-val">'+fmtRev(locked.min,locked.max)+'</span><span class="mc-lbl">已鎖定合約營收</span><span class="mc-sub">✅ 已過案 · '+locked.cnt+' 件</span></div>'+
+    '<div class="mc" style="--mc-color:var(--orange)"><span class="mc-val" style="font-size:1.2rem">'+fmtRev(pMin,pMax)+'</span><span class="mc-lbl">潛在管線機會</span><span class="mc-sub">📋 準提案 · '+pCnt+' 件</span></div>'+
+    '<div class="mc" style="--mc-color:var(--blue)"><span class="mc-val">'+total+'</span><span class="mc-lbl">總案件數</span><span class="mc-sub">'+STAGES.length+' 個推進階段</span></div>'+
+    '<div class="mc" style="--mc-color:var(--blue)"><span class="mc-val" style="font-size:1.3rem">'+fmtNum(q.shops)+' 家</span><span class="mc-lbl">累計店家數</span><span class="mc-sub">'+q.shopCnt+' 件填寫</span></div>'+
+    '<div class="mc" style="--mc-color:var(--blue)"><span class="mc-val" style="font-size:1.3rem">'+fmtNum(q.cash)+'</span><span class="mc-lbl">累計金流數（萬）</span><span class="mc-sub">'+q.cashCnt+' 件填寫</span></div>'+
+    '<div class="mc" style="--mc-color:var(--green)"><span class="mc-val" style="font-size:1.3rem">'+fmtNum(q.margin)+'</span><span class="mc-lbl">累計預估毛利（萬）</span><span class="mc-sub">'+q.marginCnt+' 件填寫</span></div>'+
+    '<div class="mc" style="--mc-color:'+(lateC>0?'var(--red)':'var(--text-3)')+'"><span class="mc-val">'+lateC+'</span><span class="mc-lbl">時程落後案件</span><span class="mc-sub">'+(lateC>0?'需重啟談判':'所有時程正常')+'</span></div>';
+}
+
+function buildPipeline(){
+  var total=PROJECTS.length||1,pipe=document.getElementById('ov-pipe'),leg=document.getElementById('ov-legend');
+  pipe.innerHTML='';leg.innerHTML='';
+  STAGES.forEach(function(s){
+    var cnt=PROJECTS.filter(function(p){return p.stageId===s.id;}).length;
+    var rev=calcRevBySec(s.id);
+    if(cnt>0){var seg=document.createElement('div');seg.className='pipe-seg';seg.style.cssText='width:'+(cnt/total*100)+'%;background:'+s.dot+';min-width:8px';seg.title=s.label+'：'+cnt+' 件';pipe.appendChild(seg);}
+    var li=document.createElement('div');li.className='legend-card';
+    li.innerHTML='<span class="legend-dot" style="background:'+s.dot+'"></span><span style="font-size:.76rem;color:var(--text);flex:1">'+s.label+'</span><div class="legend-meta"><span class="legend-cnt">'+cnt+' 件</span>'+(rev.cnt>0?'<span class="legend-rev">'+fmtRev(rev.min,rev.max)+'</span>':'')+'</div>';
+    leg.appendChild(li);
+  });
+}
+
+/* ═══ GANTT TIMELINE ═══ */
+function renderTimeline(){
+  var c=document.getElementById('timeline-list');if(!c)return;
+  // Axis: 12 months starting from May 2026
+  var AXIS_START_MONTH=4; // May = index 4
+  var AXIS_YEAR=2026;
+  var MONTHS_LABEL=['5月','6月','7月','8月','9月','10月','11月','12月','1月','2月','3月','4月'];
+  var axisStart=new Date(AXIS_YEAR,AXIS_START_MONTH,1);
+  var axisEnd=new Date(AXIS_YEAR+1,AXIS_START_MONTH,1);
+
+  function dateToPct(ds){
+    var d=new Date(ds);if(isNaN(d))return -1;
+    if(d<axisStart||d>=axisEnd)return -1;
+    return(d-axisStart)/(axisEnd-axisStart)*100;
+  }
+  var todayPct=dateToPct(TODAY_STR);
+  var nowColIdx=(TODAY.getMonth()-AXIS_START_MONTH+12)%12;
+
+  // Collect rows
+  var rows=[];
+  PROJECTS.filter(function(p){return p&&p.id;}).forEach(function(proj){
+    var pending=(proj.milestones||[]).filter(function(ms){return !ms.done&&dateToPct(ms.date)>=0;});
+    if(pending.length)rows.push({proj:proj,milestones:pending});
+  });
+  rows.sort(function(a,b){
+    var da=Math.min.apply(null,a.milestones.map(function(m){return +new Date(m.date);}));
+    var db=Math.min.apply(null,b.milestones.map(function(m){return +new Date(m.date);}));
+    return da-db;
+  });
+
+  if(!rows.length){c.innerHTML='<div class="gantt-empty"><i class="ti ti-check" style="color:var(--green);font-size:14px"></i>所有里程碑均已完成 ✓</div>';return;}
+
+  var monthHdr=MONTHS_LABEL.map(function(m,i){return '<div class="gantt-month'+(i===nowColIdx?' gm-now':'')+'" >'+m+'</div>';}).join('');
+  var gridCols=MONTHS_LABEL.map(function(m,i){return '<div class="gantt-col'+(i===nowColIdx?' gc-now':'')+'"></div>';}).join('');
+  var tLine=todayPct>=0?'<div class="gantt-today" style="left:'+todayPct.toFixed(2)+'%"></div>':'';
+
+  var gi=0,rowsHtml='';
+  rows.forEach(function(row){
+    var proj=row.proj;
+    var stg=STAGES.find(function(x){return x.id===proj.stageId;})||STAGES[0];
+    var badge='<span style="font-size:.61rem;padding:1px 5px;border-radius:999px;background:'+stg.bg+';color:'+stg.fg+'">'+stg.label+'</span>';
+    var badges='';
+    row.milestones.forEach(function(ms){
+      gi++;
+      var pct=dateToPct(ms.date);
+      var late=isMsLate(ms);
+      var bc=late?'gantt-badge late':'gantt-badge';
+      var nc=late?'background:var(--red)':'background:'+stg.dot;
+      badges+='<div class="gantt-ms-pin" style="left:'+pct.toFixed(2)+'%" onclick="event.stopPropagation();openGanttEdit('+proj.id+')">'
+        +'<span class="'+bc+'" title="'+ms.date+' · '+ms.task+(late?' ⚠️ 逾期':'')+'">'
+        +'<span class="gantt-num" style="'+nc+'">'+gi+'</span>'
+        +ms.task.slice(0,13)+(ms.task.length>13?'…':'')
+        +(late?'<span style="font-size:.59rem">⚠️</span>':'')
+        +'</span></div>';
+    });
+    rowsHtml+='<div class="gantt-row" style="--g-dot:'+stg.dot+'" onclick="openGanttEdit('+proj.id+')">'
+      +'<div class="gantt-info">'
+      +'<div class="gantt-proj-name"><span>'+proj.name+'</span><i class="ti ti-edit" style="font-size:10px;color:var(--text-3);flex-shrink:0"></i></div>'
+      +'<div class="gantt-proj-meta">'+(proj.dept||'')+' '+badge+'</div>'
+      +'</div>'
+      +'<div class="gantt-tl" style="position:relative;overflow:visible">'+gridCols+tLine+badges+'</div>'
+      +'</div>';
+  });
+
+  c.innerHTML='<div class="gantt-wrap">'
+    +'<div class="gantt-header"><div class="gantt-h-label">參與專案 (KA/局處)</div><div class="gantt-months">'+monthHdr+'</div></div>'
+    +rowsHtml+'</div>';
+}
+
+/* ═══ STRATEGY ═══ */
+function renderStrategy(){
+  var c=document.getElementById('strategy-goals');if(!c)return;
+  c.innerHTML=STRATEGY.map(function(g,i){
+    return '<div class="strat-row" draggable="true" ondragstart="stratDS(event,'+i+')" ondragover="stratDO(event,'+i+')" ondrop="stratDrop(event,'+i+')" ondragend="stratDE()">'
+      +'<span class="strat-grip"><i class="ti ti-grip-vertical"></i></span>'
+      +'<span class="strat-badge" style="color:'+g.color+';border-color:'+g.color+'">'+(i===STRATEGY.length-1?'持續':'P'+(i+1))+'</span>'
+      +'<div style="flex:1;min-width:0">'
+      +'<div class="strat-title" contenteditable="true" data-sidx="'+i+'" data-field="title" onblur="saveStrat(this)" onclick="event.stopPropagation()">'+g.title+'</div>'
+      +'<div class="strat-desc" contenteditable="true" data-sidx="'+i+'" data-field="desc" onblur="saveStrat(this)" onclick="event.stopPropagation()">'+g.desc+'</div>'
+      +'</div>'
+      +'<button class="strat-del" onclick="removeStrat('+i+')"><i class="ti ti-x" style="font-size:11px"></i></button>'
+      +'</div>';
+  }).join('');
+}
+function saveStrat(el){var i=+el.dataset.sidx,f=el.dataset.field;if(STRATEGY[i]){STRATEGY[i][f]=el.innerText.trim();saveLS();}}
+function addStrategy(){STRATEGY.push({color:'#888',title:'新戰略目標',desc:'說明此目標的重要性與行動方向'});renderStrategy();saveLS();
+  setTimeout(function(){var rows=document.querySelectorAll('.strat-row');var last=rows[rows.length-1];if(last){var t=last.querySelector('[data-field="title"]');if(t){t.focus();document.execCommand('selectAll');}}},50);}
+function removeStrat(i){STRATEGY.splice(i,1);renderStrategy();saveLS();}
+function stratDS(e,i){stratDragIdx=i;e.dataTransfer.effectAllowed='move';setTimeout(function(){document.querySelectorAll('.strat-row')[i]&&document.querySelectorAll('.strat-row')[i].classList.add('dragging-strat');},0);}
+function stratDO(e,i){e.preventDefault();document.querySelectorAll('.strat-row').forEach(function(r){r.classList.remove('drag-over-strat');});document.querySelectorAll('.strat-row')[i]&&document.querySelectorAll('.strat-row')[i].classList.add('drag-over-strat');}
+function stratDrop(e,i){e.preventDefault();if(stratDragIdx===null||stratDragIdx===i)return;var m=STRATEGY.splice(stratDragIdx,1)[0];STRATEGY.splice(i,0,m);stratDragIdx=null;renderStrategy();saveLS();}
+function stratDE(){stratDragIdx=null;document.querySelectorAll('.strat-row').forEach(function(r){r.classList.remove('dragging-strat','drag-over-strat');});}
+
+/* ═══ SECTION TABS ═══ */
+function renderSectionTabs(){
+  var tabEl=document.getElementById('section-tabs');if(!tabEl)return;
+  tabEl.innerHTML='';
+  function makeTab(label,secId,count,color){
+    var btn=document.createElement('button');var isAct=currentSectionFilter===secId;
+    btn.className='sec-tab'+(isAct?' active':'');
+    if(isAct){btn.style.background=color||'var(--text)';btn.style.color='#fff';}
+    btn.innerHTML=label+' <span class="tc">'+count+'</span>';
+    btn.addEventListener('click',function(){setSecTab(secId);});
+    tabEl.appendChild(btn);
+  }
+  makeTab('全部','all',PROJECTS.filter(function(p){return p&&p.id;}).length,'var(--text)');
+  SECTIONS.forEach(function(sec){
+    var cnt=PROJECTS.filter(function(p){return p&&p._section===sec.id;}).length;
+    makeTab(sec.label,sec.id,cnt,sec.color);
+  });
+}
+function setSecTab(secId){
+  currentSectionFilter=secId;
+  try{localStorage.setItem('brief_tab',secId);}catch(e){}
+  renderSectionTabs();renderAllSections();
+}
+
+/* ═══ SECTIONS ═══ */
+function initSections(){
+  PROJECTS=PROJECTS.filter(function(p){return p&&p.id;});
+  PROJECTS.forEach(function(p){
+    if(!p._section)assignDefSec(p);
+    if(!p.milestones)p.milestones=[];
+    if(p.milestones.length===0){var def=DEFAULT_PROJECTS.find(function(d){return d.id===p.id;});if(def&&def.milestones&&def.milestones.length)p.milestones=JSON.parse(JSON.stringify(def.milestones));}
+    if(p.quantShops===undefined)p.quantShops='';
+    if(p.quantCash===undefined)p.quantCash='';
+    if(p.quantMargin===undefined)p.quantMargin='';
+  });
+  var allIds=PROJECTS.reduce(function(a,p){return a.concat((p.milestones||[]).map(function(m){return m.id;}));},[]);
+  if(allIds.length)nextMsId=Math.max.apply(null,allIds)+1;
+}
+function assignDefSec(p){
+  var map={mechanism:'mechanism',explore:'idea',approved:'approved'};
+  if(map[p.stageId]){p._section=map[p.stageId];return;}
+  p._section='proposal';
+}
+function renderAllSections(){
+  var q=((document.getElementById('search-input')||{}).value||'').toLowerCase();
+  var container=document.getElementById('all-sections');if(!container)return;
+  container.innerHTML='';
+  var secsToShow=currentSectionFilter==='all'?SECTIONS:SECTIONS.filter(function(s){return s.id===currentSectionFilter;});
+  secsToShow.forEach(function(sec){
+    var rows=PROJECTS.filter(function(p){return p&&p._section===sec.id;});
+    if(q)rows=rows.filter(function(p){return[p.name,p.dept,p.partner,p.qual,p.strategic,p.progress].some(function(v){return v&&v.toLowerCase().indexOf(q)>=0;});});
+    container.appendChild(buildSecBlock(sec,rows));
+  });
+}
+
+function buildSecBlock(sec,rows){
+  var wrap=document.createElement('div');
+  // Header
+  var hdr=document.createElement('div');hdr.className='sec-block-head sec-h-drop';
+  hdr.setAttribute('ondragover',"event.preventDefault();event.currentTarget.classList.add('dz-active')");
+  hdr.setAttribute('ondragleave',"event.currentTarget.classList.remove('dz-active')");
+  hdr.setAttribute('ondrop',"dropOnSec(event,'"+sec.id+"')");
+  var sr=calcRevBySec(sec.id);
+  var revBadge=sr.cnt>0?'<span class="sec-rev" style="background:'+(sec.id==='approved'?'var(--green-bg)':'var(--orange-bg)')+';color:'+(sec.id==='approved'?'var(--green)':'var(--orange)')+'">'+fmtRev(sr.min,sr.max)+'</span>':'';
+  hdr.innerHTML='<div class="sec-title"><span>'+sec.label+'</span><span class="sec-count" style="background:'+sec.bg+';color:'+sec.color+'">'+rows.length+' 件</span>'+revBadge+'</div>'
+    +'<span class="sec-desc">'+sec.desc+'</span>'
+    +'<button class="btn btn-sm" onclick="addToSec(\''+sec.id+'\')" style="background:'+sec.color+';color:#fff;border-color:'+sec.color+';flex-shrink:0"><i class="ti ti-plus" style="font-size:10px"></i>新增</button>';
+  wrap.appendChild(hdr);
+
+  // Funnel alerts
+  FUNNEL_STAGES.forEach(function(sid){
+    var s=STAGES.find(function(x){return x.id===sid;});if(!s)return;
+    if(PROJECTS.filter(function(p){return p.stageId===sid;}).length===0){
+      var ab=document.createElement('div');ab.className='alert-banner';
+      ab.innerHTML='<i class="ti ti-alert-triangle" style="flex-shrink:0"></i><span>⚠️ 警告：「'+s.label+'」案件為零，下半年管線恐面臨斷層。</span>';
+      wrap.appendChild(ab);
+    }
+  });
+
+  var tw=document.createElement('div');tw.className='table-wrap';
+  if(!rows.length){
+    tw.innerHTML='<div class="empty-state"><i class="ti ti-inbox"></i>尚無項目<div class="empty-hint"><i class="ti ti-info-circle" style="font-size:12px"></i>'+(STAGE_EMPTY_HINTS[sec.id]||'點右上角新增')+'</div></div>';
+  } else {
+    var stOpts=function(sel){return STAGES.map(function(s){return '<option value="'+s.id+'"'+(s.id===sel?' selected':'')+'>'+s.label+'</option>';}).join('');};
+    var scOpts=function(cur){return SECTIONS.map(function(s){return '<option value="'+s.id+'"'+(s.id===cur?' selected':'')+'>'+s.label+'</option>';}).join('');};
+    tw.innerHTML='<table class="master-table"><thead><tr>'
+      +'<th style="width:22px"></th><th>案名</th><th>階段/區塊</th><th>局處</th><th>合作單位</th>'
+      +'<th>預估營收</th><th>提案時間</th><th>質化/戰略效益</th><th>店家數</th><th>金流數</th><th>預估毛利</th><th>時程</th><th>目前進度</th><th></th>'
+      +'</tr></thead>'
+      +'<tbody ondragover="tbodyDO(event)" ondrop="tbodyDrop(event,\''+sec.id+'\')">'
+      +rows.filter(Boolean).map(function(r){
+        if(!r||!r.id)return '';
+        var s=STAGES.find(function(x){return x.id===r.stageId;})||STAGES[0];
+        var chip='<span class="stage-chip" style="background:'+s.bg+';color:'+s.fg+'"><span style="width:5px;height:5px;border-radius:50%;background:'+s.dot+';display:inline-block;flex-shrink:0"></span>'+s.label+'</span>';
+        var lb=isLate(r)?'<span class="late-badge"><i class="ti ti-clock-exclamation" style="font-size:9px"></i>時程落後</span>':'';
+        var ib=r.intl?'<span class="s-intl"><i class="ti ti-map-pin" style="font-size:9px"></i>新加坡</span>':'';
+        var mc=(r.milestones||[]).filter(function(m){return !m.done;}).length;
+        return '<tr data-pid="'+r.id+'" draggable="true" ondragstart="tblDS(event,\''+r.id+'\')" ondragend="tblDE()">'
+          +'<td class="tbl-grip"><i class="ti ti-grip-vertical"></i></td>'
+          +'<td contenteditable="true" data-field="name" data-id="'+r.id+'" onblur="saveTbl(this)" style="font-weight:500;min-width:78px">'+r.name+'</td>'
+          +'<td style="min-width:115px">'+chip+lb+ib+(mc>0?'<span style="font-size:.62rem;padding:1px 4px;border-radius:var(--radius-pill);background:var(--blue-bg);color:var(--blue);margin-top:2px;display:inline-flex;align-items:center;gap:2px"><i class="ti ti-flag" style="font-size:8px"></i>'+mc+'</span>':'')
+          +'<select class="tbl-select" onchange="moveStage('+r.id+',this.value)">'+stOpts(r.stageId)+'</select>'
+          +'<select class="tbl-select" onchange="moveSection('+r.id+',this.value)">'+scOpts(r._section)+'</select>'
+          +'</td>'
+          +'<td contenteditable="true" data-field="dept" data-id="'+r.id+'" onblur="saveTbl(this)">'+r.dept+'</td>'
+          +'<td contenteditable="true" data-field="partner" data-id="'+r.id+'" onblur="saveTbl(this)">'+r.partner+'</td>'
+          +'<td contenteditable="true" data-field="revenue" data-id="'+r.id+'" onblur="saveTbl(this)" data-placeholder="100~200 萬" style="font-family:\'DM Mono\',monospace;font-size:.76rem;color:var(--green)">'+(r.revenue||'—')+'</td>'
+          +'<td contenteditable="true" data-field="proposeDate" data-id="'+r.id+'" onblur="saveTbl(this)" data-placeholder="YYYY-MM-DD" style="font-family:\'DM Mono\',monospace;font-size:.73rem;color:var(--text-2)">'+(r.proposeDate||'—')+'</td>'
+          +'<td contenteditable="true" data-field="qual" data-id="'+r.id+'" onblur="saveTbl(this)" style="font-size:.74rem;color:var(--text-2);line-height:1.5;min-width:95px">'+r.qual+'</td>'
+          +'<td contenteditable="true" data-field="quantShops" data-id="'+r.id+'" onblur="saveTbl(this)" data-placeholder="50 家" style="font-family:\'DM Mono\',monospace;font-size:.74rem;color:var(--blue)">'+(r.quantShops||'—')+'</td>'
+          +'<td contenteditable="true" data-field="quantCash" data-id="'+r.id+'" onblur="saveTbl(this)" data-placeholder="NT$ 萬" style="font-family:\'DM Mono\',monospace;font-size:.74rem;color:var(--blue)">'+(r.quantCash||'—')+'</td>'
+          +'<td contenteditable="true" data-field="quantMargin" data-id="'+r.id+'" onblur="saveTbl(this)" data-placeholder="20%" style="font-family:\'DM Mono\',monospace;font-size:.74rem;color:var(--green)">'+(r.quantMargin||'—')+'</td>'
+          +'<td contenteditable="true" data-field="dateRange" data-id="'+r.id+'" onblur="saveTbl(this)" style="font-family:\'DM Mono\',monospace;font-size:.73rem;color:var(--text-2);white-space:nowrap">'+r.dateStart+(r.dateStart!==r.dateEnd?' → '+r.dateEnd:'')+'</td>'
+          +'<td contenteditable="true" data-field="progress" data-id="'+r.id+'" onblur="saveTbl(this)" data-placeholder="目前進度…" style="font-size:.74rem;line-height:1.5;min-width:85px">'+(r.progress||'')+'</td>'
+          +'<td class="action-btns"><button class="btn btn-sm" onclick="goPage(\''+r.stageId+'\')"><i class="ti ti-arrow-right" style="font-size:10px"></i>詳情</button>'
+          +'<button class="btn btn-sm btn-danger" onclick="deleteProject('+r.id+')"><i class="ti ti-trash" style="font-size:10px"></i></button></td>'
+          +'</tr>';
+      }).join('')+'</tbody></table>';
+  }
+  wrap.appendChild(tw);
+  var dz=document.createElement('div');dz.className='drop-zone';
+  dz.setAttribute('ondragover',"event.preventDefault();event.currentTarget.classList.add('dz-active')");
+  dz.setAttribute('ondragleave',"event.currentTarget.classList.remove('dz-active')");
+  dz.setAttribute('ondrop',"dropOnSec(event,'"+sec.id+"')");
+  dz.innerHTML='<i class="ti ti-arrows-move" style="font-size:12px"></i>拖曳移入「'+sec.label+'」';
+  wrap.appendChild(dz);
+  return wrap;
+}
+
+/* ═══ TABLE DRAG ═══ */
+function tblDS(e,pid){tblDragSrcId=parseInt(pid);e.dataTransfer.setData('text/plain',String(pid));e.dataTransfer.effectAllowed='move';setTimeout(function(){document.querySelectorAll('tr[data-pid="'+pid+'"]').forEach(function(r){r.classList.add('tbl-dragging');});},0);}
+function tbodyDO(e){e.preventDefault();e.stopPropagation();var row=e.target.closest('tr[data-pid]');if(row&&row!==tblDragOverRow){if(tblDragOverRow)tblDragOverRow.classList.remove('tbl-drag-over');tblDragOverRow=row;row.classList.add('tbl-drag-over');}}
+function tbodyDrop(e,secId){e.preventDefault();e.stopPropagation();if(tblDragSrcId===null)return;var row=e.target.closest('tr[data-pid]'),targetId=row?parseInt(row.dataset.pid):null;var srcP=PROJECTS.find(function(p){return p.id===tblDragSrcId;});if(!srcP){tblCleanup();return;}srcP._section=secId;if(targetId&&targetId!==tblDragSrcId){var si=PROJECTS.findIndex(function(p){return p.id===tblDragSrcId;}),ti=PROJECTS.findIndex(function(p){return p.id===targetId;});if(si>=0&&ti>=0){var m=PROJECTS.splice(si,1)[0];PROJECTS.splice(PROJECTS.findIndex(function(p){return p.id===targetId;}),0,m);}}tblCleanup();afterEdit();}
+function dropOnSec(e,secId){e.preventDefault();e.stopPropagation();if(tblDragSrcId===null)return;var p=PROJECTS.find(function(x){return x.id===tblDragSrcId;});if(p)p._section=secId;e.currentTarget.classList.remove('dz-active');tblCleanup();afterEdit();}
+function tblDE(){tblCleanup();}
+function tblCleanup(){tblDragSrcId=null;tblDragOverRow=null;document.querySelectorAll('tbody tr').forEach(function(r){r.classList.remove('tbl-dragging','tbl-drag-over');});document.querySelectorAll('.drop-zone,.sec-h-drop').forEach(function(z){z.classList.remove('dz-active');});}
+
+/* ═══ DATA MUTATIONS ═══ */
+function saveTbl(el){var id=parseInt(el.dataset.id),f=el.dataset.field,p=PROJECTS.find(function(x){return x.id===id;});if(!p)return;if(f==='dateRange'){p.dateStart=el.innerText.trim();p.dateEnd=el.innerText.trim();}else p[f]=el.innerText.trim();afterEdit();if(p.stageId){var sp=document.getElementById('sd-'+p.stageId);if(sp&&sp.children.length)renderStagePage(p.stageId);}}
+function moveStage(id,sid){var p=PROJECTS.find(function(x){return x.id===id;});if(!p)return;var old=p.stageId;p.stageId=sid;afterEdit();if(currentPage!=='overview')renderStagePage(currentPage);[old,sid].forEach(function(s){if(s&&s!==currentPage){var sp=document.getElementById('sd-'+s);if(sp&&sp.children.length)renderStagePage(s);}});}
+function moveSection(id,secId){var p=PROJECTS.find(function(x){return x.id===id;});if(p){p._section=secId;afterEdit();if(currentPage!=='overview')renderStagePage(currentPage);}}
+function deleteProject(id,confirmed){if(!confirmed){showDelModal(id);return;}var p=PROJECTS.find(function(x){return x.id===id;}),sid=p&&p.stageId;PROJECTS=PROJECTS.filter(function(p){return p.id!==id;});afterEdit();if(currentPage!=='overview')renderStagePage(currentPage);if(sid&&sid!==currentPage){var sp=document.getElementById('sd-'+sid);if(sp&&sp.children.length)renderStagePage(sid);}hideDelModal();}
+function addToSec(secId){showAddModal(secId);}
+function doAddToSec(secId,name){if(!name||!name.trim())return;var stMap={mechanism:'mechanism',idea:'explore',interest:'explore',alliance:'explore',proposal:'talk',approved:'approved',ka_notes:'dev'};var p={id:nextId++,name:name.trim(),stageId:stMap[secId]||'explore',dept:'',partner:'',revenue:'',proposeDate:'',qual:'',quant:'',strategic:'',quantShops:'',quantCash:'',quantMargin:'',dateStart:'',dateEnd:'',intl:false,note:'',link:'',progress:'',_section:secId,milestones:[]};PROJECTS.push(p);afterEdit();}
+
+/* ═══ MILESTONE ═══ */
+function addMilestone(pid){var di=document.getElementById('ms-date-'+pid),ti=document.getElementById('ms-task-'+pid);if(!di||!ti)return;var date=(di.value||'').trim(),task=(ti.value||'').trim();if(!date||!task){if(!date)di.focus();else ti.focus();return;}var p=PROJECTS.find(function(x){return x.id===pid;});if(!p)return;if(!p.milestones)p.milestones=[];p.milestones.push({id:nextMsId++,date:date,task:task,done:false});di.value='';ti.value='';saveLS();renderStagePage(p.stageId);renderTimeline();}
+function toggleMilestone(pid,msId){var p=PROJECTS.find(function(x){return x.id===pid;});if(!p)return;var ms=p.milestones&&p.milestones.find(function(m){return m.id===msId;});if(!ms)return;ms.done=!ms.done;saveLS();renderStagePage(p.stageId);renderTimeline();}
+function deleteMilestone(pid,msId){var p=PROJECTS.find(function(x){return x.id===pid;});if(!p)return;p.milestones=(p.milestones||[]).filter(function(m){return m.id!==msId;});saveLS();renderStagePage(p.stageId);renderTimeline();}
+
+/* ═══ GANTT EDIT ═══ */
+function openGanttEdit(pid){
+  var p=PROJECTS.find(function(x){return x.id===pid;});if(!p)return;
+  var stg=STAGES.find(function(x){return x.id===p.stageId;})||STAGES[0];
+  var modal=document.getElementById('ge-modal');
+  if(!modal){modal=document.createElement('div');modal.id='ge-modal';modal.className='ge-modal';modal.onclick=function(e){if(e.target===modal)closeGE();};document.body.appendChild(modal);}
+  function build(){
+    var msList=(p.milestones||[]);
+    var mh='';
+    if(!msList.length)mh='<div style="font-size:.77rem;color:var(--text-3);padding:7px 0">尚無里程碑，點下方新增</div>';
+    else msList.forEach(function(ms){
+      var late=ms.date<=TODAY_STR&&!ms.done;
+      var ts=ms.done?'text-decoration:line-through;color:var(--text-3)':(late?'color:var(--red)':'color:var(--text)');
+      mh+='<div class="ge-ms-row">'
+        +'<input type="checkbox" style="cursor:pointer;accent-color:var(--green);width:13px;height:13px;flex-shrink:0"'+(ms.done?' checked':'')+' onchange="geToggle('+pid+','+ms.id+',this.checked)">'
+        +'<input type="date" value="'+ms.date+'" style="border:1px solid var(--border-md);border-radius:5px;padding:2px 4px;font-family:DM Mono,monospace;font-size:.72rem;background:var(--surface);flex-shrink:0" onchange="geEditDate('+pid+','+ms.id+',this.value)">'
+        +'<span class="ge-ms-task" style="'+ts+'" contenteditable="true" onblur="geEditTask('+pid+','+ms.id+',this)">'+ms.task+'</span>'
+        +'<button class="ge-ms-del" onclick="geDel('+pid+','+ms.id+')"><i class="ti ti-trash"></i></button>'
+        +'</div>';
+    });
+    var pending=(p.milestones||[]).filter(function(m){return !m.done;}).length;
+    modal.innerHTML='<div class="ge-panel">'
+      +'<h3 style="font-family:Sora,sans-serif;font-size:.91rem;font-weight:600;margin-bottom:3px">'+p.name+'</h3>'
+      +'<span style="font-size:.69rem;padding:2px 7px;border-radius:999px;background:'+stg.bg+';color:'+stg.fg+';display:inline-block;margin-bottom:11px">'+stg.label+'</span>'
+      +'<div style="font-size:.67rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:5px">里程碑 ('+pending+' 未完成)</div>'
+      +'<div>'+mh+'</div>'
+      +'<button class="ge-add-btn" onclick="geShowAdd('+pid+')"><i class="ti ti-plus" style="font-size:11px"></i>新增里程碑</button>'
+      +'<div id="ge-add-'+pid+'" style="display:none;flex-direction:column;gap:5px;margin-top:7px">'
+      +'<div class="ge-add-row">'
+      +'<input type="date" id="ge-d-'+pid+'" style="flex:0 0 140px;font-size:.77rem;border:1px solid var(--border-md);border-radius:var(--radius);padding:4px 7px;font-family:inherit;background:var(--surface);color:var(--text)">'
+      +'<input type="text" id="ge-t-'+pid+'" placeholder="查核點名稱…" style="flex:1;min-width:115px;font-size:.77rem;border:1px solid var(--border-md);border-radius:var(--radius);padding:4px 7px;font-family:inherit;background:var(--surface);color:var(--text)" onkeydown="if(event.keyCode===13)geConfirm('+pid+')">'
+      +'</div>'
+      +'<div class="ge-add-row">'
+      +'<button class="btn btn-primary btn-sm" onclick="geConfirm('+pid+')"><i class="ti ti-check" style="font-size:10px"></i>確認</button>'
+      +'<button class="btn btn-sm" onclick="geHideAdd('+pid+')">取消</button>'
+      +'</div></div>'
+      +'<div class="ge-footer">'
+      +'<button class="btn btn-sm" onclick="goPage('+JSON.stringify(p.stageId)+')"><i class="ti ti-arrow-right" style="font-size:10px"></i>前往詳情</button>'
+      +'<button class="btn btn-primary btn-sm" onclick="closeGE()">完成</button>'
+      +'</div></div>';
+    modal.style.display='flex';
+    modal._r=build;
+  }
+  build();
+}
+function closeGE(){var m=document.getElementById('ge-modal');if(m)m.style.display='none';}
+function geShowAdd(pid){var f=document.getElementById('ge-add-'+pid);if(f){f.style.display='flex';f.style.flexDirection='column';setTimeout(function(){var d=document.getElementById('ge-d-'+pid);if(d)d.focus();},50);}}
+function geHideAdd(pid){var f=document.getElementById('ge-add-'+pid);if(f)f.style.display='none';}
+function geConfirm(pid){var di=document.getElementById('ge-d-'+pid),ti=document.getElementById('ge-t-'+pid);var date=(di&&di.value||'').trim(),task=(ti&&ti.value||'').trim();if(!date||!task){if(!date&&di)di.focus();else if(ti)ti.focus();return;}var p=PROJECTS.find(function(x){return x.id===pid;});if(!p)return;if(!p.milestones)p.milestones=[];p.milestones.push({id:nextMsId++,date:date,task:task,done:false});afterEdit();var m=document.getElementById('ge-modal');if(m&&m._r)m._r();}
+function geToggle(pid,msId,done){var p=PROJECTS.find(function(x){return x.id===pid;});var ms=p&&p.milestones&&p.milestones.find(function(m){return m.id===msId;});if(!ms)return;ms.done=done;afterEdit();var m=document.getElementById('ge-modal');if(m&&m._r)m._r();}
+function geEditDate(pid,msId,val){var p=PROJECTS.find(function(x){return x.id===pid;});var ms=p&&p.milestones&&p.milestones.find(function(m){return m.id===msId;});if(!ms)return;ms.date=val;afterEdit();}
+function geEditTask(pid,msId,el){var p=PROJECTS.find(function(x){return x.id===pid;});var ms=p&&p.milestones&&p.milestones.find(function(m){return m.id===msId;});if(!ms)return;ms.task=el.innerText.trim();afterEdit();}
+function geDel(pid,msId){var p=PROJECTS.find(function(x){return x.id===pid;});if(!p)return;p.milestones=(p.milestones||[]).filter(function(m){return m.id!==msId;});afterEdit();var m=document.getElementById('ge-modal');if(m&&m._r)m._r();}
+
+/* ═══ STAGE DETAIL ═══ */
+function buildStagePagesShell(){
+  var c=document.getElementById('stage-pages');
+  STAGES.forEach(function(s){
+    var div=document.createElement('div');div.className='page';div.id='page-'+s.id;
+    div.innerHTML='<div class="page-header"><div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">'
+      +'<button class="btn" onclick="goPage(\'overview\')"><i class="ti ti-arrow-left" style="font-size:11px"></i>總覽</button>'
+      +'<div><h1 style="font-size:1.28rem">'+s.label+'</h1><p id="sh-'+s.id+'">'+s.badgeText+'</p></div></div>'
+      +'<div style="display:flex;gap:6px;align-items:center">'
+      +'<input id="add-name-'+s.id+'" class="add-item-input" type="text" placeholder="新案件名稱…" style="width:185px" onkeydown="if(event.keyCode===13){event.preventDefault();addItem(\''+s.id+'\')}">'
+      +'<button class="btn btn-primary" onclick="addItem(\''+s.id+'\')"><i class="ti ti-plus" style="font-size:11px"></i>新增</button>'
+      +'</div></div>'
+      +'<div id="sd-'+s.id+'"></div>';
+    c.appendChild(div);
+  });
+}
+
+function renderStagePage(sid){
+  var s=STAGES.find(function(x){return x.id===sid;}),el=document.getElementById('sd-'+sid);if(!el)return;
+  var projects=PROJECTS.filter(function(p){return p.stageId===sid;});
+  var sh=document.getElementById('sh-'+sid);if(sh)sh.textContent=s.badgeText+' · '+projects.length+' 個項目';
+  var stOpts=STAGES.map(function(st){return '<option value="'+st.id+'"'+(st.id===sid?' selected':'')+'>'+st.label+'</option>';}).join('');
+  var cardsHtml=projects.length?projects.map(function(p){
+    var open=!!openCards[p.id],hasLink=p.link&&p.link.trim(),late=isLate(p);
+    var msList=(p.milestones||[]);
+    var msHtml='<div class="ms-section">'
+      +'<div class="dfl" style="margin-bottom:7px"><i class="ti ti-flag"></i>關鍵里程碑管理</div>'
+      +'<div class="ms-list">'
+      +(msList.length?msList.map(function(ms){var ml=isMsLate(ms);return '<div class="ms-item'+(ms.done?' done-ms':'')+'">'
+        +'<input type="checkbox"'+(ms.done?' checked':'')+' onchange="toggleMilestone('+p.id+','+ms.id+')" style="cursor:pointer;accent-color:var(--green);width:13px;height:13px;flex-shrink:0">'
+        +'<span class="ms-date" style="'+(ml?'color:var(--red);font-weight:600':'')+'">'+ms.date+(ml?' ⚠️':'')+'</span>'
+        +'<span class="ms-task" style="'+(ms.done?'text-decoration:line-through;color:var(--text-3)':ml?'color:var(--red)':'')+'">'+ms.task+'</span>'
+        +'<button class="ms-del" onclick="deleteMilestone('+p.id+','+ms.id+')"><i class="ti ti-x" style="font-size:10px"></i></button>'
+        +'</div>';}).join(''):'<div style="font-size:.76rem;color:var(--text-3);padding:5px 0">尚無里程碑</div>')
+      +'</div>'
+      +'<div class="ms-add-row">'
+      +'<input id="ms-date-'+p.id+'" class="ms-date-in" type="date">'
+      +'<input id="ms-task-'+p.id+'" class="ms-task-in" type="text" placeholder="查核點名稱…" onkeydown="if(event.keyCode===13){event.preventDefault();addMilestone('+p.id+')}">'
+      +'<button class="btn btn-sm btn-primary" onclick="addMilestone('+p.id+')"><i class="ti ti-plus" style="font-size:10px"></i>新增</button>'
+      +'</div></div>';
+    return '<div class="proj-card" id="proj-card-'+p.id+'">'
+      +'<div class="proj-card-head" onclick="toggleCard('+p.id+',\''+sid+'\')" style="'+(p._draft?'background:var(--orange-bg);':late?'background:var(--red-bg);':'')+'">'
+      +'<span class="proj-card-dot" style="background:'+s.dot+'"></span>'
+      +'<span class="proj-card-name">'+p.name+'</span>'
+      +(p._draft?'<span class="draft-badge">草稿</span>':'')
+      +(late?'<span class="late-badge"><i class="ti ti-clock-exclamation" style="font-size:8px"></i>時程落後</span>':'')
+      +(p.revenue&&p.revenue!=='—'?'<span style="font-size:.68rem;padding:2px 6px;border-radius:var(--radius-pill);background:var(--green-bg);color:var(--green);font-family:\'DM Mono\',monospace;flex-shrink:0">'+p.revenue+'</span>':'')
+      +(p.intl?'<span class="s-intl"><i class="ti ti-map-pin" style="font-size:8px"></i>新加坡</span>':'')
+      +(msList.filter(function(m){return !m.done;}).length>0?'<span style="font-size:.67rem;padding:2px 6px;border-radius:var(--radius-pill);background:var(--blue-bg);color:var(--blue);flex-shrink:0"><i class="ti ti-flag" style="font-size:8px"></i> '+msList.filter(function(m){return !m.done;}).length+' 里程碑</span>':'')
+      +(p.progress?'<span style="font-size:.66rem;padding:2px 6px;border-radius:var(--radius-pill);background:var(--orange-bg);color:var(--orange);flex-shrink:0;max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+p.progress.slice(0,26)+(p.progress.length>26?'…':'')+'</span>':'')
+      +'<button class="proj-card-toggle" onclick="event.stopPropagation();toggleCard('+p.id+',\''+sid+'\')"><i class="ti '+(open?'ti-chevron-up':'ti-chevron-down')+'" style="font-size:10px"></i>'+(open?'收起':'展開')+'</button>'
+      +'<button class="proj-card-del" onclick="event.stopPropagation();deleteProject('+p.id+')"><i class="ti ti-trash" style="font-size:11px"></i></button>'
+      +'</div>'
+      +(open?'<div class="proj-detail">'
+        +'<div><div class="dfl"><i class="ti ti-file-text"></i>案名</div><div class="dfv" contenteditable="true" data-id="'+p.id+'" data-field="name" onblur="saveDetail(this)" data-placeholder="輸入案名">'+p.name+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-building"></i>局處</div><div class="dfv" contenteditable="true" data-id="'+p.id+'" data-field="dept" onblur="saveDetail(this)" data-placeholder="局處">'+p.dept+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-users"></i>合作單位</div><div class="dfv" contenteditable="true" data-id="'+p.id+'" data-field="partner" onblur="saveDetail(this)" data-placeholder="合作單位">'+p.partner+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-currency-dollar"></i>預估營收</div><div class="dfv mono green" contenteditable="true" data-id="'+p.id+'" data-field="revenue" onblur="saveDetail(this)" data-placeholder="NT$ 100 萬">'+p.revenue+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-calendar-due"></i>提案時間</div><div class="dfv mono" contenteditable="true" data-id="'+p.id+'" data-field="proposeDate" onblur="saveDetail(this)" data-placeholder="YYYY-MM-DD">'+(p.proposeDate||'')+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-calendar"></i>時程起</div><div class="dfv mono" contenteditable="true" data-id="'+p.id+'" data-field="dateStart" onblur="saveDetail(this)">'+p.dateStart+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-calendar-event"></i>時程迄</div><div class="dfv mono" contenteditable="true" data-id="'+p.id+'" data-field="dateEnd" onblur="saveDetail(this)">'+p.dateEnd+'</div></div>'
+        +'<div style="grid-column:1/-1"><div class="dfl"><i class="ti ti-activity"></i>目前進度</div><div class="dfv" contenteditable="true" data-id="'+p.id+'" data-field="progress" onblur="saveDetail(this)" data-placeholder="描述目前進度…">'+(p.progress||'')+'</div></div>'
+        +'<div style="grid-column:1/-1"><div class="dfl"><i class="ti ti-eye"></i>質化/戰略效益</div><div class="dfv" contenteditable="true" data-id="'+p.id+'" data-field="qual" onblur="saveDetail(this)" data-placeholder="質化效益與戰略說明">'+p.qual+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-building-store"></i>店家數</div><div class="dfv mono blue" contenteditable="true" data-id="'+p.id+'" data-field="quantShops" onblur="saveDetail(this)" data-placeholder="50 家">'+(p.quantShops||'')+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-cash"></i>金流數</div><div class="dfv mono blue" contenteditable="true" data-id="'+p.id+'" data-field="quantCash" onblur="saveDetail(this)" data-placeholder="NT$ 500 萬">'+(p.quantCash||'')+'</div></div>'
+        +'<div><div class="dfl"><i class="ti ti-trending-up"></i>預估毛利</div><div class="dfv mono green" contenteditable="true" data-id="'+p.id+'" data-field="quantMargin" onblur="saveDetail(this)" data-placeholder="20%">'+(p.quantMargin||'')+'</div></div>'
+        +'<div style="grid-column:1/-1"><div class="dfl"><i class="ti ti-notes"></i>備註</div><div class="dfv"><textarea data-id="'+p.id+'" oninput="saveNote('+p.id+',this.value)" placeholder="備註…" rows="2">'+p.note+'</textarea></div></div>'
+        +'<div style="grid-column:1/-1"><div class="dfl"><i class="ti ti-link"></i>參考連結</div><div class="link-row"><input class="link-input" type="url" placeholder="https://…" value="'+p.link+'" oninput="saveLink('+p.id+',this.value)" id="li-'+p.id+'"><button class="link-go" id="lb-'+p.id+'" onclick="openUrl('+p.id+')" '+(hasLink?'':'disabled')+'><i class="ti ti-external-link" style="font-size:11px"></i>開啟</button></div></div>'
+        +'<div style="grid-column:1/-1"><div class="dfl"><i class="ti ti-flag"></i>移動階段/區塊</div><div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:2px">'
+        +'<select class="stg-sel" onchange="moveStage('+p.id+',this.value)">'+stOpts+'</select>'
+        +'<select class="stg-sel" onchange="moveSection('+p.id+',this.value)">'+SECTIONS.map(function(sc){return '<option value="'+sc.id+'"'+(sc.id===p._section?' selected':'')+'>'+sc.label+'</option>';}).join('')+'</select>'
+        +'<label class="intl-toggle"><input type="checkbox"'+(p.intl?' checked':'')+' onchange="toggleIntl('+p.id+',this.checked)">新加坡</label>'
+        +'</div></div>'
+        +msHtml
+        +'<div style="grid-column:1/-1;border-top:1px solid var(--border);padding-top:8px;margin-top:1px;display:flex;gap:6px;align-items:center">'
+        +'<button class="btn btn-primary" onclick="saveCard('+p.id+',\''+sid+'\')"><i class="ti ti-device-floppy" style="font-size:11px"></i>儲存</button>'
+        +'<button class="btn" onclick="cancelCard('+p.id+',\''+sid+'\')"><i class="ti ti-x" style="font-size:11px"></i>'+(p._draft?'取消':'收起')+'</button>'
+        +(p._draft?'':'<span style="font-size:.67rem;color:var(--text-3)">修改後請按儲存</span>')
+        +'</div>'
+        +'</div>':'')
+      +'</div>';
+  }).join(''):'<div class="empty-row"><i class="ti ti-inbox" style="font-size:13px"></i>'+(STAGE_EMPTY_HINTS[sid]||'目前無項目')+'</div>';
+  el.innerHTML='<div class="proj-cards">'+cardsHtml+'</div>'
+    +'<div class="stg-summary"><div style="font-size:.61rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:4px">階段摘要</div>'
+    +'<div style="font-size:.78rem;color:var(--text-2);line-height:1.7">'+STAGE_SUMMARIES[sid].text+'</div>'
+    +'<div class="stg-action"><i class="ti ti-arrow-right" style="color:'+s.dot+';margin-top:1px;flex-shrink:0"></i><span>'+STAGE_SUMMARIES[sid].action+'</span></div>'
+    +'</div>';
+}
+function toggleCard(pid,sid){openCards[pid]=!openCards[pid];renderStagePage(sid);}
+function saveDetail(el){var id=parseInt(el.dataset.id),f=el.dataset.field,p=PROJECTS.find(function(x){return x.id===id;});if(!p)return;p[f]=el.innerText.trim();afterEdit();if(currentPage==='overview')renderAllSections();else{renderStagePage(currentPage);renderAllSections();}}
+function saveNote(id,v){var p=PROJECTS.find(function(x){return x.id===id;});if(p){p.note=v;saveLS();}}
+function saveLink(id,v){var p=PROJECTS.find(function(x){return x.id===id;});if(p){p.link=v;saveLS();}var b=document.getElementById('lb-'+id);if(b)b.disabled=!v.trim();}
+function openUrl(id){var p=PROJECTS.find(function(x){return x.id===id;});if(p&&p.link){var u=p.link.trim();if(!/^https?:\/\//i.test(u))u='https://'+u;window.open(u,'_blank','noopener');}}
+function toggleIntl(id,v){var p=PROJECTS.find(function(x){return x.id===id;});if(p){p.intl=v;afterEdit();renderAllSections();if(currentPage!=='overview')renderStagePage(currentPage);}}
+function addItem(sid){var inp=document.getElementById('add-name-'+sid);if(!inp)return;var name=(inp.value||'').trim();if(!name){inp.focus();return;}
+  var secMap={mechanism:'mechanism',explore:'idea'};
+  var p={id:nextId++,name:name,stageId:sid,dept:'',partner:'',revenue:'',proposeDate:'',qual:'',quant:'',strategic:'',quantShops:'',quantCash:'',quantMargin:'',dateStart:'',dateEnd:'',intl:false,note:'',link:'',progress:'',_section:secMap[sid]||'proposal',milestones:[],_draft:true};
+  PROJECTS.push(p);openCards[p.id]=true;inp.value='';afterEdit();renderStagePage(sid);renderAllSections();
+  setTimeout(function(){var c=document.getElementById('proj-card-'+p.id);if(c)c.scrollIntoView({behavior:'smooth',block:'nearest'});},100);}
+function saveCard(pid,sid){var p=PROJECTS.find(function(x){return x.id===pid;});if(p){p._draft=false;afterEdit();renderStagePage(sid);renderAllSections();toast('✓ 已儲存');}}
+function cancelCard(pid,sid){if(PROJECTS.find(function(x){return x.id===pid&&x._draft;}))PROJECTS=PROJECTS.filter(function(x){return x.id!==pid;});else openCards[pid]=false;afterEdit();renderStagePage(sid);renderAllSections();}
+
+/* ═══ MODALS ═══ */
+function showDelModal(id){
+  var m=document.getElementById('del-modal');
+  if(!m){m=document.createElement('div');m.id='del-modal';m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:flex;align-items:center;justify-content:center';
+    m.innerHTML='<div style="background:var(--surface);border-radius:var(--radius-lg);padding:1.3rem;width:280px;box-shadow:0 8px 32px rgba(0,0,0,.17)"><div style="font-size:.91rem;font-weight:500;margin-bottom:6px">確定刪除？</div><div style="font-size:.78rem;color:var(--text-2);margin-bottom:1.1rem">此操作無法復原。</div><div style="display:flex;gap:6px;justify-content:flex-end"><button class="btn" onclick="hideDelModal()">取消</button><button class="btn btn-danger" id="del-confirm-btn" style="background:var(--red);color:#fff;border-color:var(--red)">確認刪除</button></div></div>';
+    m.addEventListener('click',function(e){if(e.target===m)hideDelModal();});document.body.appendChild(m);}
+  m.style.display='flex';document.getElementById('del-confirm-btn').onclick=function(){deleteProject(id,true);};}
+function hideDelModal(){var m=document.getElementById('del-modal');if(m)m.style.display='none';}
+function showAddModal(secId){
+  var m=document.getElementById('add-modal');
+  if(!m){m=document.createElement('div');m.id='add-modal';m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:flex;align-items:center;justify-content:center';
+    m.innerHTML='<div style="background:var(--surface);border-radius:var(--radius-lg);padding:1.3rem;width:295px;box-shadow:0 8px 32px rgba(0,0,0,.17)"><div style="font-size:.91rem;font-weight:500;margin-bottom:9px">新增案件</div><input id="add-modal-input" style="width:100%;font-size:.82rem;border:1px solid var(--border-md);border-radius:var(--radius);padding:7px 9px;font-family:inherit;margin-bottom:1rem" placeholder="案件名稱…" onkeydown="if(event.keyCode===13)document.getElementById(\'add-modal-confirm\').click()"><div style="display:flex;gap:6px;justify-content:flex-end"><button class="btn" onclick="hideAddModal()">取消</button><button class="btn btn-primary" id="add-modal-confirm">新增</button></div></div>';
+    m.addEventListener('click',function(e){if(e.target===m)hideAddModal();});document.body.appendChild(m);}
+  m.style.display='flex';m.dataset.sec=secId;
+  setTimeout(function(){var i=document.getElementById('add-modal-input');if(i)i.focus();},50);
+  document.getElementById('add-modal-confirm').onclick=function(){var v=document.getElementById('add-modal-input').value;hideAddModal();doAddToSec(secId,v);};}
+function hideAddModal(){var m=document.getElementById('add-modal');if(m){m.style.display='none';var i=document.getElementById('add-modal-input');if(i)i.value='';}}
+
+/* ═══ DECISION PANEL ═══ */
+function renderDecisionPanel(){
+  var c=document.getElementById('decision-panel');if(!c)return;c.innerHTML='';
+  function makeCol(type,icon,title,badgeBg,badgeColor,iconColor){
+    var items=(DECISIONS[type]||[]).filter(Boolean);
+    var col=document.createElement('div');col.className='dec-col '+type;
+    var ih=items.map(function(item,i){
+      return '<div class="dec-item '+type+'-item">'
+        +'<span style="font-size:13px;color:'+iconColor+';flex-shrink:0"><i class="ti ti-alert-circle"></i></span>'
+        +'<div class="dec-item-body">'
+        +'<div class="dec-title" contenteditable="true" data-dtype="'+type+'" data-didx="'+i+'" data-dfield="title" onblur="saveDecision(this)">'+item.title+'</div>'
+        +'<div class="dec-desc" contenteditable="true" data-dtype="'+type+'" data-didx="'+i+'" data-dfield="desc" onblur="saveDecision(this)">'+item.desc+'</div>'
+        +'</div>'
+        +'<button onclick="removeDecision(\''+type+'\','+i+')" style="background:none;border:none;cursor:pointer;color:var(--text-3);padding:2px;border-radius:3px;flex-shrink:0;font-size:11px"><i class="ti ti-x"></i></button>'
+        +'</div>';
+    }).join('');
+    col.innerHTML='<div class="dec-col-head"><span style="font-size:15px">'+icon+'</span><h3>'+title+'</h3>'
+      +'<span style="font-size:.67rem;padding:2px 7px;border-radius:999px;background:'+badgeBg+';color:'+badgeColor+';font-weight:500">'+items.length+' 項</span></div>'
+      +'<div class="dec-items">'+ih+'</div>'
+      +'<button class="dec-add-btn" onclick="addDecision(\''+type+'\')"><i class="ti ti-plus" style="font-size:11px"></i>新增</button>';
+    c.appendChild(col);
+  }
+  makeCol('red','🔴','需老闆裁決','var(--red-bg)','var(--red)','var(--red)');
+  makeCol('green','🟢','純資訊更新 (FYI)','var(--green-bg)','var(--green)','var(--green)');
+}
+function saveDecision(el){var dtype=el.dataset.dtype,idx=parseInt(el.dataset.didx),field=el.dataset.dfield;if(DECISIONS[dtype]&&DECISIONS[dtype][idx]){DECISIONS[dtype][idx][field]=el.innerText.trim();saveLS();}}
+function addDecision(dtype){DECISIONS[dtype].push({id:nextDecId++,title:'新增事項',desc:'點擊此處編輯說明內容'});renderDecisionPanel();saveLS();setTimeout(function(){var items=document.querySelectorAll('[data-dtype="'+dtype+'"]');var last=[].slice.call(items).filter(function(el){return el.dataset.dfield==='title';}).pop();if(last){last.focus();document.execCommand('selectAll');}},50);}
+function removeDecision(dtype,idx){DECISIONS[dtype].splice(idx,1);renderDecisionPanel();saveLS();}
+
+/* ═══ EXPORT ═══ */
+function exportJSON(){
+  var backup={};
+  var keys=['brief_projects','brief_strategy','brief_decisions','brief_weekly','brief_tab','brief_sb'];
+  keys.forEach(function(k){
+    var v=localStorage.getItem(k);
+    if(v!==null){try{backup[k]=JSON.parse(v);}catch(e){backup[k]=v;}}
+  });
+  // Also embed current in-memory state
+  backup['brief_projects']=PROJECTS;
+  backup['brief_strategy']=STRATEGY;
+  backup['brief_decisions']=DECISIONS;
+  backup['brief_sb']=sbData;
+  var blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  var d=new Date();
+  a.download='project-brief-backup-'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'.json';
+  a.click();
+}
+
+/* ═══ WEEKLY BRIEF ═══ */
+var WB_COLS = {
+  decide: {id:'wb-decide', color:'var(--red)', numBg:'var(--red-bg)', numColor:'var(--red)'},
+  watch:  {id:'wb-watch',  color:'var(--orange)', numBg:'var(--orange-bg)', numColor:'var(--orange)'},
+  ok:     {id:'wb-ok',     color:'var(--green)',  numBg:'var(--green-bg)', numColor:'var(--green)'},
+};
+var DEFAULT_WB = {
+  decide: [
+    '觀光局合作是否由高層出面推進，本季需有明確意向',
+    '新加坡基地是否確認預算規模與負責窗口，Q3 啟動需提前裁示',
+    'KA／餐飲聯盟合作模式是否進入分潤設計，請裁示合約框架方向'
+  ],
+  watch: [
+    '觀光局提案進度需本週追蹤回覆',
+    '新創卡 Q2 發卡量達標情況，請留意 7 月確認報告'
+  ],
+  ok: [
+    '新創卡已過案，執行中無需介入',
+    'KA 模板與中小店家模板開發進度正常',
+    '機制更新例行推進，有助業務標準化'
+  ]
+};
+var wbData = (function(){
+  try{var v=localStorage.getItem('brief_wb');return v?JSON.parse(v):JSON.parse(JSON.stringify(DEFAULT_WB));}
+  catch(e){return JSON.parse(JSON.stringify(DEFAULT_WB));}
+})();
+
+function saveWb(){try{localStorage.setItem('brief_wb',JSON.stringify(wbData));}catch(e){}}
+
+function renderWeeklyBrief(){
+  Object.keys(WB_COLS).forEach(function(type){
+    var col=WB_COLS[type];
+    var ol=document.getElementById(col.id);if(!ol)return;
+    ol.innerHTML='';
+    var items=(wbData[type]||[]);
+    if(!items.length){
+      var empty=document.createElement('li');
+      empty.style.cssText='font-size:.76rem;color:var(--text-3);padding:4px 2px;font-style:italic';
+      empty.textContent='暫無事項';
+      ol.appendChild(empty);return;
+    }
+    items.forEach(function(text,i){
+      var li=document.createElement('li');li.className='weekly-item';
+      var onbBlur = 'saveWbItem(\'' + type + '\',' + i + ',this)';
+      var onbClick = 'delWbItem(\'' + type + '\',' + i + ')';
+      li.innerHTML='<span class="weekly-num" style="background:'+col.numBg+';color:'+col.numColor+';border:1px solid currentColor">'+(i+1)+'</span>'
+        +'<span class="weekly-text" contenteditable="true" onblur="'+onbBlur+'">'+text+'</span>'
+        +'<button class="weekly-del" onclick="'+onbClick+'" title="刪除"><i class="ti ti-x"></i></button>';
+      ol.appendChild(li);
+    });
+  });
+}
+function saveWbItem(type,idx,el){
+  var v=el.innerText.trim();
+  if(!v){wbData[type].splice(idx,1);renderWeeklyBrief();}
+  else wbData[type][idx]=v;
+  saveWb();
+}
+function addWbItem(type){
+  if(!wbData[type])wbData[type]=[];
+  wbData[type].push('點擊編輯事項內容');
+  renderWeeklyBrief();saveWb();
+  setTimeout(function(){
+    var col=WB_COLS[type];
+    var ol=document.getElementById(col.id);if(!ol)return;
+    var spans=ol.querySelectorAll('.weekly-text');
+    var last=spans[spans.length-1];
+    if(last){last.focus();document.execCommand('selectAll');}
+  },50);
+}
+function delWbItem(type,idx){
+  wbData[type].splice(idx,1);renderWeeklyBrief();saveWb();
+}
+// legacy aliases
+function addWeeklyItem(){addWbItem('decide');}
+function deleteWeeklyItem(idx){delWbItem('decide',idx);}
+
+/* ═══ STATUS BOARD ═══ */
+var SB_DEFAULT = {
+  red: [
+    '中小微企業(新創卡)希望三方6/9確認合作模式 - 點點+資策會+新創',
+    '科專申請-點鑽+新創+3TG 1. 移工卡(命名可以重新構思，讓行銷更容易建議英文或東南亞使用較親切的名稱): 主推 點數(點鑽)、支付(點鑽全球)、票券(3TG)聯盟申請，有新住民、跨境議題的亮點合作申請 2. 新創聯盟，建議由程嗦透過新創總會及媒介多家連鎖加盟企業業域，成為多場域驗證的商圈聯盟。成員: 點鑽+新創總會+連鎖聯盟 >>>需要溝讓點點漂亮進入  3. 企業內部員工激勵點數應用，建議用程嗦(員工多)+點鑽自行申請 >>>需要溝通 與點點目前新創卡不衝突',
+    '宏誌的整合案，是否與上面，分開申請，點點自行申請'
+  ],
+  orange: [
+    '新創賦能(供應鏈)有被告知，需要找新KA備援助',
+    '觀光局合作推進，本周需有明確意向 進度需本週追蹤回覆'
+  ],
+  green: [
+    'KA 模板與中小店家模板開發進度正常',
+    '機制更新例行推進，有助業務標準化'
+  ]
+};
+var sbData = (function(){
+  try{var v=localStorage.getItem('brief_sb');return v?JSON.parse(v):JSON.parse(JSON.stringify(SB_DEFAULT));}
+  catch(e){return JSON.parse(JSON.stringify(SB_DEFAULT));}
+})();
+function saveSb(){try{localStorage.setItem('brief_sb',JSON.stringify(sbData));}catch(e){}}
+function renderStatusBoard(){
+  ['red','orange','green'].forEach(function(type){
+    var el=document.getElementById('sb-'+type+'-items');
+    var cnt=document.getElementById('sb-'+type+'-cnt');
+    if(!el)return;
+    var items=(sbData[type]||[]);
+    if(cnt)cnt.textContent=items.length+' 項';
+    el.innerHTML='';
+    if(!items.length){
+      var empty=document.createElement('div');
+      empty.style.cssText='font-size:.74rem;color:rgba(0,0,0,.3);padding:3px 2px;font-style:italic';
+      empty.textContent='暫無事項';
+      el.appendChild(empty);return;
+    }
+    items.forEach(function(text,i){
+      var item=document.createElement('div');item.className='status-item';
+      var dot=type==='red'?'var(--red)':type==='orange'?'var(--orange)':'var(--green)';
+      var span=document.createElement('span');span.style.cssText='flex-shrink:0;width:6px;height:6px;border-radius:50%;background:'+dot+';margin-top:6px';
+      var textEl=document.createElement('span');textEl.className='status-item-text';textEl.contentEditable='true';textEl.textContent=text;
+      textEl.addEventListener('blur',function(){saveSbItem(type,i,this);});
+      var delBtn=document.createElement('button');delBtn.className='status-item-del';delBtn.title='刪除';delBtn.innerHTML='<i class="ti ti-x"></i>';
+      delBtn.addEventListener('click',function(){delSbItem(type,i);});
+      item.appendChild(span);item.appendChild(textEl);item.appendChild(delBtn);
+      el.appendChild(item);
+    });
+  });
+}
+function saveSbItem(type,idx,el){
+  var v=el.innerText.trim();
+  if(!v){sbData[type].splice(idx,1);renderStatusBoard();}
+  else sbData[type][idx]=v;
+  saveSb();
+}
+function addStatusItem(type){
+  if(!sbData[type])sbData[type]=[];
+  sbData[type].push('點擊編輯事項內容');
+  renderStatusBoard();saveSb();
+  setTimeout(function(){
+    var el=document.getElementById('sb-'+type+'-items');if(!el)return;
+    var spans=el.querySelectorAll('.status-item-text');
+    var last=spans[spans.length-1];
+    if(last){last.focus();document.execCommand('selectAll');}
+  },50);
+}
+function delSbItem(type,idx){sbData[type].splice(idx,1);renderStatusBoard();saveSb();}
+
+
+/* ═══ IMPORT BACKUP ═══ */
+function importBackup(){
+  document.getElementById('import-file-input').click();
+}
+function handleImportFile(e){
+  var file=e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      var data=JSON.parse(ev.target.result);
+      // Restore all known LS keys from the backup object
+      var keys=['brief_projects','brief_strategy','brief_decisions','brief_weekly','brief_tab','brief_sb'];
+      var restored=0;
+      keys.forEach(function(k){
+        if(data[k]!==undefined){
+          localStorage.setItem(k, typeof data[k]==='string'?data[k]:JSON.stringify(data[k]));
+          restored++;
+        }
+      });
+      alert('✅ 備份匯入成功（'+restored+' 個資料區塊）\n即將重新整理頁面...');
+      location.reload();
+    }catch(err){
+      alert('❌ 匯入失敗：JSON 格式錯誤\n'+err.message);
+    }
+  };
+  reader.readAsText(file);
+  // Reset input so same file can be re-imported
+  e.target.value='';
+}
+
+/* ═══ WEEK BADGE ═══ */
+(function(){
+  var el=document.getElementById('week-label');if(!el)return;
+  var d=new Date(TODAY_STR);
+  var startOfYear=new Date(d.getFullYear(),0,1);
+  var weekNum=Math.ceil(((d-startOfYear)/86400000+startOfYear.getDay()+1)/7);
+  var mm=String(d.getMonth()+1).padStart(2,'0');
+  var dd=String(d.getDate()).padStart(2,'0');
+  el.textContent='W'+weekNum+' · '+d.getFullYear()+'/'+mm+'/'+dd;
+})();
+
+/* ═══ WEEKLY HIGHLIGHT BADGE RENDER ═══ */
+function renderWeeklyHighlightBadges(){
+  var el=document.getElementById('weekly-highlight-text');
+  if(!el)return;
+  var DEFAULT_WH='本週共追蹤 17 件策略專案。需裁示 3 件、需關注 2 件。重點聚焦觀光局合作、新加坡基地及餐飲聯盟布局。';
+  var raw=weeklyHighlight||DEFAULT_WH;
+  var html=raw
+    .replace(/\n/g,'<br>')
+    .replace(/(\d+)\s*(件)/g,function(_,n,u){
+      var cls=parseInt(n)<=2?'wh-red':parseInt(n)<=5?'wh-orange':parseInt(n)>=10?'wh-total':'wh-green';
+      return '<span class="wh-num '+cls+'">'+n+'</span> '+u;
+    });
+  el.innerHTML=html;
+  if(!el._whBound){
+    el._whBound=true;
+    el.addEventListener('focus',function(){
+      var t=weeklyHighlight||DEFAULT_WH;
+      el.innerText=t;
+      // move cursor to end
+      var range=document.createRange();range.selectNodeContents(el);range.collapse(false);
+      var sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+    });
+    el.addEventListener('blur',function(){
+      weeklyHighlight=el.innerText.trim();
+      saveLS();
+      renderWeeklyHighlightBadges();
+    });
+  }
+}
+
+/* ═══ INIT ═══ */
+buildSidebar();buildMobileNav();buildStagePagesShell();initSections();syncOverview();renderWeeklyBrief();renderStatusBoard();renderWeeklyHighlightBadges();
+
+</script>
+</body>
+</html>
