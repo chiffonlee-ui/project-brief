@@ -2,7 +2,7 @@
   "sb": {
     "red": [
       "中小微企業(新創卡)希望三方6/9確認合作模式 - 點點+資策會+新創",
-      "科專申請-點鑽+新創+3TG 1. 移工卡(命名可以重新構思，讓行銷更容易建議英文或東南亞使用較親切的名稱): 主推 點數(點鑽)、支付(點鑽全球)、票券(3TG)聯盟申請，有新住民、跨境議題的亮點合作申請 2. 新創聯盟，建議由程嗦透過新創總會及媒介多家連鎖加盟企業業域，成為多場域驗證的商圈聯盟。成員: 點鑽+新創總會+連鎖聯盟 >>>需要溝讓點點漂亮進入 3. 企業內部員工激勵點數應用，建議用程嗦(員工多)+點鑽自行申請 >>>需要溝通 與點點目前新創卡不衝突",
+      "科專申請-點鑽+新創+3TG 1. 移工卡(命名可以重新構思，讓行銷更容易建議英文或東南亞使用較親切的名稱): 主推 點數(點鑽)、支付(點鑽全球)、票券(3TG)聯盟申請，有新住民、跨境議題的亮點合作申請 2. 新創聯盟，建議由程嗦透過新創總會及媒介多家連鎖加盟企業業域，成為多場域驗證的商圈聯盟。成員: 點鑽+新創總會+連鎖聯盟 >>>需要溝讓點點漂亮進入  3. 企業內部員工激勵點數應用，建議用程嗦(員工多)+點鑽自行申請 >>>需要溝通 與點點目前新創卡不衝突",
       "宏誌的整合案，是否與上面，分開申請，點點自行申請"
     ],
     "orange": [
@@ -351,8 +351,31 @@
       "milestones": []
     },
     {
+      "id": 12,
+      "name": "KA 開發模板",
+      "stageId": "dev",
+      "dept": "業務部",
+      "partner": "",
+      "revenue": "—",
+      "qual": "記錄 KA 開發的歷史背景、策略方向與核心邏輯",
+      "quant": "",
+      "strategic": "形成可傳承的 KA 方法論，支援業務規模化",
+      "dateStart": "2026-Q1",
+      "dateEnd": "持續",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "proposeDate": "",
+      "progress": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "_section": "ka_notes",
+      "milestones": []
+    },
+    {
       "id": 14,
-      "name": "KA開發機制",
+      "name": "KA渠道開發機制",
       "stageId": "mechanism",
       "dept": "業務部",
       "partner": "",
@@ -523,54 +546,6 @@
       "progress": "",
       "_section": "interest",
       "milestones": []
-    },
-    {
-      "id": 21,
-      "name": "台北數位補給站",
-      "stageId": "proposal",
-      "dept": "",
-      "partner": "",
-      "revenue": "",
-      "proposeDate": "",
-      "qual": "",
-      "quant": "",
-      "strategic": "",
-      "quantShops": "",
-      "quantCash": "",
-      "quantMargin": "",
-      "dateStart": "",
-      "dateEnd": "",
-      "intl": false,
-      "note": "",
-      "link": "",
-      "progress": "",
-      "_section": "proposal",
-      "milestones": [],
-      "_draft": false
-    },
-    {
-      "id": 22,
-      "name": "產發署雲端數位工具",
-      "stageId": "proposal",
-      "dept": "",
-      "partner": "",
-      "revenue": "",
-      "proposeDate": "",
-      "qual": "",
-      "quant": "",
-      "strategic": "",
-      "quantShops": "",
-      "quantCash": "",
-      "quantMargin": "",
-      "dateStart": "",
-      "dateEnd": "",
-      "intl": false,
-      "note": "",
-      "link": "",
-      "progress": "",
-      "_section": "proposal",
-      "milestones": [],
-      "_draft": false
     }
   ],
   "strategy": [
@@ -600,5 +575,5 @@
       "desc": "KA 開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-08T06:46:08.982Z"
+  "updatedAt": "2026-06-08T06:47:46.583Z"
 }
