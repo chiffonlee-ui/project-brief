@@ -234,7 +234,7 @@
       "proposeDate": "",
       "progress": "",
       "quantShops": "",
-      "quantCash": "500",
+      "quantCash": "",
       "quantMargin": "",
       "_section": "proposal",
       "milestones": [
@@ -553,5 +553,5 @@
       "desc": "KA 渠道開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-08T12:35:39.760Z"
+  "updatedAt": "2026-06-08T12:38:45.024Z"
 }
