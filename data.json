@@ -64,8 +64,8 @@
       "milestones": [
         {
           "id": 1,
-          "date": "2026-06-09",
-          "task": "合作模式討論確認",
+          "date": "2026-06-16",
+          "task": "RFP初版",
           "done": false
         }
       ]
@@ -163,7 +163,7 @@
       "id": 5,
       "name": "新創聯盟",
       "stageId": "explore",
-      "dept": "程嗦 創新總會",
+      "dept": "程曦 創新總會",
       "partner": "",
       "revenue": "—",
       "qual": "新創圈資源整合",
@@ -374,7 +374,14 @@
       "quantCash": "",
       "quantMargin": "",
       "_section": "ka_notes",
-      "milestones": []
+      "milestones": [
+        {
+          "id": 1,
+          "date": "2026-08-01",
+          "task": "KA 方法論 V1.0 文件完成",
+          "done": false
+        }
+      ]
     },
     {
       "id": 14,
@@ -397,7 +404,14 @@
       "quantCash": "",
       "quantMargin": "",
       "_section": "mechanism",
-      "milestones": []
+      "milestones": [
+        {
+          "id": 1,
+          "date": "2026-07-20",
+          "task": "機制 V2.0 文件發布",
+          "done": false
+        }
+      ]
     },
     {
       "id": 15,
@@ -420,7 +434,14 @@
       "quantCash": "",
       "quantMargin": "",
       "_section": "mechanism",
-      "milestones": []
+      "milestones": [
+        {
+          "id": 1,
+          "date": "2026-10-01",
+          "task": "審查標準 V2 正式上線",
+          "done": false
+        }
+      ]
     },
     {
       "id": 17,
@@ -526,6 +547,52 @@
       "progress": "",
       "_section": "interest",
       "milestones": []
+    },
+    {
+      "id": 21,
+      "name": "數位補給站",
+      "stageId": "approved",
+      "dept": "台北市產發署",
+      "partner": "",
+      "revenue": "—",
+      "proposeDate": "2026/06",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "approved",
+      "milestones": []
+    },
+    {
+      "id": 22,
+      "name": "媒體標案資源開發",
+      "stageId": "explore",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "idea",
+      "milestones": []
     }
   ],
   "strategy": [
@@ -555,5 +622,5 @@
       "desc": "KA 渠道開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-08T13:53:34.266Z"
+  "updatedAt": "2026-06-14T22:51:14.423Z"
 }
