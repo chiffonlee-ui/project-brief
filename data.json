@@ -1,7 +1,7 @@
 {
   "sb": {
     "red": [
-      "新創RFP產出"
+      "新創RFP"
     ],
     "orange": [
       "移工卡",
@@ -108,7 +108,7 @@
     },
     {
       "id": 3,
-      "name": "餐飲聯盟",
+      "name": "新創餐飲聯盟課程",
       "stageId": "explore",
       "dept": "創新創業總會",
       "partner": "聯盟會員",
@@ -122,7 +122,7 @@
       "note": "",
       "link": "",
       "proposeDate": "",
-      "progress": "",
+      "progress": "6/17 辦線上說明會  7-9月課程",
       "quantShops": "50",
       "quantCash": "",
       "quantMargin": "",
@@ -414,42 +414,6 @@
       ]
     },
     {
-      "id": 17,
-      "name": "新加坡媒合資源",
-      "stageId": "mechanism",
-      "dept": "國際部",
-      "partner": "TBD",
-      "revenue": "—",
-      "qual": "東南亞市場橋頭堡，提供台灣新創出海加速服務",
-      "quant": "目標市場：SG/MY/ID",
-      "strategic": "建立東南亞品牌形象，擴大政府客戶信任度",
-      "dateStart": "2025-Q3",
-      "dateEnd": "持續",
-      "intl": true,
-      "note": "",
-      "link": "",
-      "proposeDate": "",
-      "progress": "",
-      "quantShops": "",
-      "quantCash": "",
-      "quantMargin": "",
-      "_section": "proposal",
-      "milestones": [
-        {
-          "id": 1,
-          "date": "2026-06-20",
-          "task": "線上徵選",
-          "done": false
-        },
-        {
-          "id": 2,
-          "date": "2026-11-02",
-          "task": "前往新加坡",
-          "done": false
-        }
-      ]
-    },
-    {
       "id": 19,
       "name": "觀光署商圈",
       "stageId": "explore",
@@ -632,6 +596,52 @@
       "progress": "",
       "_section": "ka_notes",
       "milestones": []
+    },
+    {
+      "id": 27,
+      "name": "創客行銷補助案",
+      "stageId": "explore",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "interest",
+      "milestones": []
+    },
+    {
+      "id": 28,
+      "name": "麗容美食街 董助約訪",
+      "stageId": "dev",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "回覆台北約訪沒問題",
+      "_section": "ka_notes",
+      "milestones": []
     }
   ],
   "strategy": [
@@ -661,5 +671,5 @@
       "desc": "KA 渠道開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-21T02:44:11.509Z"
+  "updatedAt": "2026-06-21T02:48:19.059Z"
 }
