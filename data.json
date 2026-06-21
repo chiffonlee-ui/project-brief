@@ -3,14 +3,16 @@
     "red": [
       "中小微AI應用 RFP",
       "6/23 聯盟提案點點部分 (移工卡、新創聯盟) 1. 提案方案 2. 點點角色 (1) 移工卡: 清分算+地推 (2) 新創聯盟: 餐飲店家收集 + 清分算 3. 點點收入來源: 手續費",
-      "點星後續發展"
+      "點星後續發展",
+      "創客行銷補助案合作"
     ],
     "orange": [
       "移工卡",
       "呷尚寶提案追蹤",
-      "麗容約訪",
+      "麗陽約訪",
       "新創賦能  安菈 魚賀",
-      "統一Openpoint後續確認"
+      "統一Openpoint後續確認",
+      "美德耐是否納入美食街"
     ],
     "green": [
       "KA 模板與中小店家模板開發進度正常",
@@ -26,6 +28,11 @@
         "id": 3,
         "title": "新創聯盟合作方式討論",
         "desc": "新創卡聯盟宏誌與餐飲聯盟需確認合作模式。"
+      },
+      {
+        "id": 10,
+        "title": "點星人力後續",
+        "desc": "點擊此處編輯說明內容"
       }
     ],
     "green": [
@@ -555,8 +562,31 @@
       "milestones": []
     },
     {
+      "id": 29,
+      "name": "[新創賦能] 晨間廚房",
+      "stageId": "dev",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "ka_notes",
+      "milestones": []
+    },
+    {
       "id": 26,
-      "name": "屋馬CEO約訪",
+      "name": "[純約訪] 屋馬CEO約訪",
       "stageId": "dev",
       "dept": "",
       "partner": "",
@@ -602,7 +632,7 @@
     },
     {
       "id": 28,
-      "name": "麗容美食街 董助約訪",
+      "name": "[美食街] 麗陽美董助/協理約訪",
       "stageId": "dev",
       "dept": "",
       "partner": "",
@@ -621,6 +651,98 @@
       "link": "",
       "progress": "回覆台北約訪沒問題",
       "_section": "ka_notes",
+      "milestones": []
+    },
+    {
+      "id": 30,
+      "name": "[新創卡] 晨間廚房約訪",
+      "stageId": "dev",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "ka_notes",
+      "milestones": []
+    },
+    {
+      "id": 31,
+      "name": "[課程案] 馬可先生",
+      "stageId": "dev",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "ka_notes",
+      "milestones": []
+    },
+    {
+      "id": 32,
+      "name": "[美食街] 美德耐",
+      "stageId": "dev",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "ka_notes",
+      "milestones": []
+    },
+    {
+      "id": 33,
+      "name": "財報雲 / 會計師協會開發",
+      "stageId": "explore",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "interest",
       "milestones": []
     }
   ],
@@ -646,5 +768,5 @@
       "desc": "道開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-21T02:59:43.688Z"
+  "updatedAt": "2026-06-21T03:15:23.701Z"
 }
