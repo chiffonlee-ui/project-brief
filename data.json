@@ -4,7 +4,8 @@
       "中小微AI應用 RFP",
       "6/23 聯盟提案點點部分 (移工卡、新創聯盟) 1. 提案方案 2. 點點角色 (1) 移工卡: 清分算+地推 (2) 新創聯盟: 餐飲店家收集 + 清分算 3. 點點收入來源: 手續費",
       "點星後續發展",
-      "創客行銷補助案合作"
+      "創客行銷補助案合作",
+      "找相關KA 於韌性案的多店案、整合案 提案 (達美樂等)"
     ],
     "orange": [
       "移工卡",
@@ -562,29 +563,6 @@
       "milestones": []
     },
     {
-      "id": 29,
-      "name": "[新創賦能] 晨間廚房",
-      "stageId": "dev",
-      "dept": "",
-      "partner": "",
-      "revenue": "",
-      "proposeDate": "",
-      "qual": "",
-      "quant": "",
-      "strategic": "",
-      "quantShops": "",
-      "quantCash": "",
-      "quantMargin": "",
-      "dateStart": "",
-      "dateEnd": "",
-      "intl": false,
-      "note": "",
-      "link": "",
-      "progress": "",
-      "_section": "ka_notes",
-      "milestones": []
-    },
-    {
       "id": 26,
       "name": "[純約訪] 屋馬CEO約訪",
       "stageId": "dev",
@@ -744,6 +722,52 @@
       "progress": "",
       "_section": "interest",
       "milestones": []
+    },
+    {
+      "id": 34,
+      "name": "[ 整合案] 達美樂",
+      "stageId": "explore",
+      "dept": "",
+      "partner": "",
+      "revenue": "100~300萬",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "interest",
+      "milestones": []
+    },
+    {
+      "id": 35,
+      "name": "找相關KA 於韌性案的多店案、整合案 提案",
+      "stageId": "explore",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "idea",
+      "milestones": []
     }
   ],
   "strategy": [
@@ -768,5 +792,5 @@
       "desc": "道開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-21T03:15:23.701Z"
+  "updatedAt": "2026-06-21T03:20:45.935Z"
 }
