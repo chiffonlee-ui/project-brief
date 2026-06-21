@@ -1,7 +1,8 @@
 {
   "sb": {
     "red": [
-      "新創RFP"
+      "新創RFP",
+      "6/23 聯盟提案點點部分 (移工卡、新創聯盟)\n1. 提案方案\n2. 點點角色\n(1) 移工卡: 清分算+地推\n(2) 新創聯盟: 餐飲店家收集 + 清分算\n3. 點點收入來源: 手續費"
     ],
     "orange": [
       "移工卡",
@@ -460,29 +461,6 @@
       "milestones": []
     },
     {
-      "id": 21,
-      "name": "數位補給站",
-      "stageId": "approved",
-      "dept": "台北市產發署",
-      "partner": "",
-      "revenue": "—",
-      "proposeDate": "2026/06",
-      "qual": "",
-      "quant": "",
-      "strategic": "",
-      "quantShops": "",
-      "quantCash": "",
-      "quantMargin": "",
-      "dateStart": "",
-      "dateEnd": "",
-      "intl": false,
-      "note": "",
-      "link": "",
-      "progress": "",
-      "_section": "approved",
-      "milestones": []
-    },
-    {
       "id": 22,
       "name": "媒體標案資源開發",
       "stageId": "explore",
@@ -671,5 +649,5 @@
       "desc": "KA 渠道開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-21T02:48:19.059Z"
+  "updatedAt": "2026-06-21T02:53:15.140Z"
 }
