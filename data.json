@@ -13,7 +13,8 @@
       "麗陽約訪",
       "新創賦能  安菈 魚賀",
       "統一Openpoint後續確認",
-      "美德耐是否納入美食街"
+      "美德耐是否納入美食街",
+      "9月份 多店案提案-五十嵐、達美樂"
     ],
     "green": [
       "KA 模板與中小店家模板開發進度正常",
@@ -725,7 +726,7 @@
     },
     {
       "id": 34,
-      "name": "[ 整合案] 達美樂",
+      "name": "[ 多店案] 達美樂",
       "stageId": "explore",
       "dept": "",
       "partner": "",
@@ -768,6 +769,29 @@
       "progress": "",
       "_section": "idea",
       "milestones": []
+    },
+    {
+      "id": 36,
+      "name": "[ 多店案] 五十嵐",
+      "stageId": "explore",
+      "dept": "",
+      "partner": "",
+      "revenue": "",
+      "proposeDate": "",
+      "qual": "",
+      "quant": "",
+      "strategic": "",
+      "quantShops": "",
+      "quantCash": "",
+      "quantMargin": "",
+      "dateStart": "",
+      "dateEnd": "",
+      "intl": false,
+      "note": "",
+      "link": "",
+      "progress": "",
+      "_section": "interest",
+      "milestones": []
     }
   ],
   "strategy": [
@@ -792,5 +816,5 @@
       "desc": "道開發機制與審查機制持續優化，支撐各案件的規模複製能力，預計 Q2 完成 V2.0。"
     }
   ],
-  "updatedAt": "2026-06-21T03:24:58.970Z"
+  "updatedAt": "2026-06-21T03:39:03.695Z"
 }
